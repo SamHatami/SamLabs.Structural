@@ -6,17 +6,15 @@ namespace SamLab.Structural.Core
     public struct Node
     {
         public Vector2 Position { get; private set; }
-        public BoundaryCondition BoundaryCondition { get; } = BoundaryCondition.Pinned;
         public int Id { get; set; }
 
         public Vector2 AppliedForce;
         public Vector2 Displacement;
 
-        private List<Member> Members;
-        public Node(Vector2 position, BoundaryCondition boundaryCondition)
+        public List<Member> Members;
+        public Node(Vector2 position)
         {
             Position = position;
-            BoundaryCondition = boundaryCondition;
             Id = GlobalNodeHandler.GetNextIndex(); 
             AppliedForce = Vector2.Zero;
             Displacement = Vector2.Zero;

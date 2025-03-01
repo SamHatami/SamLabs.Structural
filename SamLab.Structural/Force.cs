@@ -42,4 +42,16 @@ public class Force
     {
         InsertionNode = newNode;
     }
+
+    public float CalculateMoment(Vector2 pivotPoint) //TODO: Handle this by a StructuralAnalysis class
+    {
+        Vector2 r = InsertionNode.Position - pivotPoint;
+        return Vector2Extension.Cross(r, new Vector2(X, Y));
+
+    }
+
+    public float CalculateMoment(Node pivotNode) //TODO: Handle this by a StructuralAnalysis class
+    {
+        return CalculateMoment(pivotNode.Position);
+    }
 }

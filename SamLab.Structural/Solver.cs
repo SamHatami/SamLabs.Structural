@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using SamLab.Structural.Core.Interfaces;
 using SamLab.Structural.Core.Structures;
 
@@ -8,13 +9,14 @@ public static class Solver
 {
     //TODO: Perhaps in the future there will be some options, but they will be read during the operations.
 
-    //TODO: A PreSolver that will check if structure is solvable using current methods. (statically determined)
+    //TODO: A PreSolver that will check if structure is solvable using current methods. (statically determined). Read Below:
+    //TODO: External/Internal redundancy & instability. If external redundancy,give warning: if internal redundancy, give error . If External instability, give error: if internal instability, give error.
     public static IStructure Solve(IStructure structure)
     {
         switch (structure)
         {
             case TrussStructure trussStructure:
-                SolveTrussStructure(trussStructure);
+                SolveTrussStructure(trussStructure); 
                 break;
         }
 
@@ -23,11 +25,10 @@ public static class Solver
 
     private static TrussStructure SolveTrussStructure(TrussStructure trussStructure)
     {
-        //Calculate reaction forces
 
 
         Equilibrium(trussStructure);
-        //walk through each joint and calculation joint forces by method of joints
+        //walk through each joint and calculation joint forces by method of joints => Ax = b
 
         foreach (var node in trussStructure.Nodes)
         {
@@ -38,28 +39,42 @@ public static class Solver
         return trussStructure;
     }
 
-    private static void Equilibrium(TrussStructure structure)
+    private static void Equilibrium(TrussStructure structure) 
     {
-        //split into x and y components
-        float sumXForces = structure.Forces.Sum(force => force.X);
-        float sumYForces = structure.Forces.Sum(force => force.Y);
-
-        //Select a boundary node to sum up moments, a node that has maximum of two members connected to it
-
+        //Select a boundary node to check equllibrium of external forces -> free body diagram
         //Calculate moments
 
         Node? momentEquilibriumNode = null;
 
-        foreach (var boundaryCondition in structure.BoundaryConditions)
+        foreach (var support in structure.Supports)
         {
-            if (boundaryCondition.Node.Members.Count == 2)
-                momentEquilibriumNode = boundaryCondition.Node; //select this node as moment equilibrium node
+            if (support.Node.Members.Count != 2) continue;
 
+            momentEquilibriumNode = support.Node;
+            break;
         }
+
+        if (momentEquilibriumNode == null)
+            //Log error
+            //Send log event 
+            return;
+
+        float sumFx = structure.ExternalForces.Sum(force => force.X); 
+        float sumFy = structure.ExternalForces.Sum(force => force.Y);
+        float sumM = structure.ExternalForces.Sum(force => force.CalculateMoment(momentEquilibriumNode.Value)); //2d cross product of r and f is a scalar, in 3d it is a vector -> get the magnitude of the vector to get the scalar
+
+        var A = Matrix<double>.Build.DenseOfArray(new double[,] {
+            { 3, 2, -1 },
+            { 2, -2, 4 },
+            { -1, 0.5, -1 }
+        });
+        var b = Vector<double>.Build.Dense(new double[] { sumFx, sumFy, sumM });
+        var x = A.Solve(b);
         //Settings up an equation for forces and moments, to solve the unknowns
 
-        //from each force, get the distance from the node and multiply by the perpendicular force component
-        //sum them up
+        //TODO: Solve the system of equations -> Ax = b -> Gaussian or LU ?
 
     }
+
+
 }

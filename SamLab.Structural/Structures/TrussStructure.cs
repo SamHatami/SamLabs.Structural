@@ -9,4 +9,6 @@ public class TrussStructure : IStructure
     public List<Member> Members { get; }
     public List<Force> ExternalForces { get; }
     public List<Support> Supports { get; }
+
+
 }

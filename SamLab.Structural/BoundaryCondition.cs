@@ -17,5 +17,5 @@ public enum BoundaryConditionType
     Fixed,
     Free,
     Pinned,
-    Sliding
+    Roller
 }

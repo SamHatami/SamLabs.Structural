@@ -12,10 +12,13 @@ namespace SamLab.Structural.Core
         public Vector2 Displacement;
 
         public List<Member> Members;
+        //public List<(int MemberId, int ConnectedNodeId)> ConnectedMembers;
+
+        public Support Support { get; private set; }
         public Node(Vector2 position)
         {
             Position = position;
-            Id = GlobalNodeHandler.GetNextIndex(); 
+            Id = GlobalIdHandler.GetNextNodeIndex(); 
             AppliedForce = Vector2.Zero;
             Displacement = Vector2.Zero;
         }
@@ -43,6 +46,18 @@ namespace SamLab.Structural.Core
                 return;
 
             Members.Add(member);
+        }
+
+        public void RemoveMember(Member member)
+        {
+            if (!Members.Contains(member))
+                return;
+            Members.Remove(member);
+        }
+
+        public void AddSupprot(Support support)
+        {
+            Support = support;
         }
     }
 }

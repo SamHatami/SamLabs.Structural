@@ -11,6 +11,7 @@ public static class Solver
 
     //TODO: A PreSolver that will check if structure is solvable using current methods. (statically determined). Read Below:
     //TODO: External/Internal redundancy & instability. If external redundancy,give warning: if internal redundancy, give error . If External instability, give error: if internal instability, give error.
+    //TODO: 
     public static IStructure Solve(IStructure structure)
     {
         switch (structure)
@@ -26,22 +27,18 @@ public static class Solver
     private static TrussStructure SolveTrussStructure(TrussStructure trussStructure)
     {
 
+        //Sort the nodes by id 
+        trussStructure.Members.Sort((a, b) => a.Id.CompareTo(b.Id));
 
-        Equilibrium(trussStructure);
-        //walk through each joint and calculation joint forces by method of joints => Ax = b
-
-        foreach (var node in trussStructure.Nodes)
-        {
-        }
-
-        //Collect
+        trussStructure.Solve();
 
         return trussStructure;
     }
 
     private static void Equilibrium(TrussStructure structure) 
     {
-        //Select a boundary node to check equllibrium of external forces -> free body diagram
+        //This was me not understanding that hand calculations are not very useful in this case
+        //Select a boundary node to check equilibirum of external forces -> free body diagram
         //Calculate moments
 
         Node? momentEquilibriumNode = null;

@@ -9,6 +9,7 @@ public class Support
     public Vector2 Orientation { get; private set; }
     public Force ReactionForce { get; private set; }
 
+    public DoF DegreeOfFreedom { get; private set; } 
     public Support(Node node, BoundaryCondition boundaryCondition, Vector2 orientation)
     {
         Node = node;
@@ -16,6 +17,11 @@ public class Support
         Orientation = orientation;
 
         Initialize();
+    }
+
+    public void UpdateDegreeOfFreedom(DoF dof)
+    {
+        DegreeOfFreedom = dof;
     }
 
     public void UpdateReactionForce(Force force)
@@ -44,7 +50,7 @@ public class Support
                         Node); //TODO: initalize a very small reactionforce to be able to check if the structure is stable?
                 break;
 
-            case BoundaryConditionType.Sliding:
+            case BoundaryConditionType.Roller:
                 ReactionForce =
                     new Force(0, 0,
                         Node); //TODO: initalize a very small reactionforce to be able to check if the structure is stable?

@@ -6,15 +6,17 @@ public abstract class Member
     public Node End { get; }
     public float Length { get; }
 
-    public float AxialForce { get; protected set; }
+    public int Id { get; set; }
+    public Force AxialForce { get; protected set; }
 
     public Member(Node start, Node end)
     {
         Start = start;
         End = end;
         Length = (end.Position - start.Position).Length();
+        Id = GlobalIdHandler.GetNextMemberIndex();
     }
 
-    public abstract void CalculateForces();
+    
 }
 

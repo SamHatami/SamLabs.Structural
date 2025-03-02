@@ -12,9 +12,5 @@ namespace SamLab.Structural.Core.StructuralElements
         {
         }
 
-        public override void CalculateForces()
-        {
-            
-        }
     }
 }

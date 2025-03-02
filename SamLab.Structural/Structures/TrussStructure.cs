@@ -5,10 +5,10 @@ namespace SamLab.Structural.Core.Structures;
 
 public class TrussStructure : IStructure
 {
-    public List<Node> Nodes { get; }
-    public List<Member> Members { get; }
-    public List<Force> ExternalForces { get; }
-    public List<Support> Supports { get; }
+    public required List<Node> Nodes { get; set; }
+    public required List<Member> Members { get; set; }
+    public required List<Force> ExternalForces { get; set; }
+    public required List<Support> Supports { get; set; }
 
 
 }

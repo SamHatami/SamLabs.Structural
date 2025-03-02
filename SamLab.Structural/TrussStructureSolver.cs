@@ -103,7 +103,6 @@ public static class TrussStructureSolver
     public static double[] Solve(this TrussStructure structure)
     {
         var nodeIndexMap = BuildNodeIndexMap(structure);
-        for (var i = 0; i < structure.Nodes.Count; i++) nodeIndexMap.Add(structure.Nodes[i].Id, i);
         var globalMatrix = structure.BuildGlobalMatrix(nodeIndexMap);
         var globalForceVector = structure.BuildGlobalForceVector(nodeIndexMap);
         return MathNet.Numerics.LinearAlgebra.Double.Matrix.Build.DenseOfArray(globalMatrix)

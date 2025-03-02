@@ -21,22 +21,5 @@ namespace SamLab.Structural.Tests
             Assert.Equal(-2, x[2], 5);
 
         }
-
-        [Fact]
-        public void ReactionForceTest1()
-        {
-            var A = Matrix<double>.Build.DenseOfArray(new double[,] {
-                { 30, 30, 0},
-                { 0, 1, 1},
-                { -30, 0, 1 }
-            });
-            var b = Vector<double>.Build.Dense(new double[] { 0, 0, 0 });
-            var x = A.Solve(b);
-
-            Assert.Equal(0, x[0], 5);
-            Assert.Equal(0, x[1], 5);
-            Assert.Equal(0, x[2], 5);
-        }
-
     }
 }

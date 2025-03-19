@@ -4,7 +4,8 @@ using SamLab.Structural.Core.Elements.utilities;
 
 namespace SamLab.Structural.Core.Elements
 {
-    public abstract class MemeberData
+    public abstract class MemberData
+
     {
         public NodeData Start { get; }
         public NodeData End { get; }
@@ -13,7 +14,7 @@ namespace SamLab.Structural.Core.Elements
         public int Id { get; set; }
         public Force AxialForce { get; protected set; }
 
-        public MemeberData(NodeData start, NodeData end)
+        public MemberData(NodeData start, NodeData end)
         {
             Start = start;
             End = end;

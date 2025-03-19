@@ -1,16 +1,17 @@
-using UnityEngine;
+using Assets.Application;
+using Assets.Application.Interfaces;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class SomeNewCommand : ICommand
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public string Name { get; set; }
+
+    public void Execute()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Undo()
     {
-        
+        throw new System.NotImplementedException();
     }
 }

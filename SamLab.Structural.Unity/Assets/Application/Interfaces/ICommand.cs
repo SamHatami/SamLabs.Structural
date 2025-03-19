@@ -1,4 +1,4 @@
-﻿namespace Assets.Application
+﻿namespace Assets.Application.Interfaces
 {
     public interface ICommand
     {

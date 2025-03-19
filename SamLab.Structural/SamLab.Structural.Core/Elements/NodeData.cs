@@ -12,7 +12,7 @@ namespace SamLab.Structural.Core.Elements
         public Vector2 AppliedForce;
         public Vector2 Displacement;
 
-        public List<MemeberData> Members;
+        public List<MemberData> Members;
         //public List<(int MemberId, int ConnectedNodeId)> ConnectedMembers;
 
         public Support Support { get; private set; }
@@ -43,7 +43,7 @@ namespace SamLab.Structural.Core.Elements
             Displacement = Vector2.Zero;
         }
 
-        public void AddMember(MemeberData memeberData)
+        public void AddMember(MemberData memeberData)
         {
             if(Members.Contains(memeberData))
                 return;
@@ -51,7 +51,7 @@ namespace SamLab.Structural.Core.Elements
             Members.Add(memeberData);
         }
 
-        public void RemoveMember(MemeberData memeberData)
+        public void RemoveMember(MemberData memeberData)
         {
             if (!Members.Contains(memeberData))
                 return;

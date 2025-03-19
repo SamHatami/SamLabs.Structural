@@ -5,19 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Assets.Application.Interfaces;
 
-namespace Assets.Application
+namespace Assets.Application.Workspace
 {
-    public class CreateNodeCommand : ICommand
+    public class WorkspaceSnapSettings : ISettings
     {
-        public string Name { get; set; } = "Create Node";
-
-        public void Execute()
+        public void Load()
         {
-
         }
 
-        public void Undo()
+        public void Save()
         {
         }
     }
+
+
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5809809348471111949}
   - component: {fileID: 9169793043136672851}
   m_Layer: 0
-  m_Name: TrussMember
+  m_Name: TrussElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,10 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96e97ad17ced75439c510a51e82d45f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startNode: {fileID: 0}
-  _endNode: {fileID: 0}
-  RenderLine: 0
-  screenSpaceWidth: 0.12
+  screenSpaceWidth: 8
 --- !u!120 &9169793043136672851
 LineRenderer:
   serializedVersion: 2

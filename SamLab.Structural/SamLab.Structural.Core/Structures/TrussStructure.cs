@@ -8,7 +8,7 @@ namespace SamLab.Structural.Core.Structures
     public class TrussStructure : IStructure
     {
         public List<NodeData> Nodes { get; set; }
-        public List<MemeberData> Members { get; set; }
+        public List<MemberData> Members { get; set; }
         public List<Force> ExternalForces { get; set; }
         public List<Support> Supports { get; set; }
 

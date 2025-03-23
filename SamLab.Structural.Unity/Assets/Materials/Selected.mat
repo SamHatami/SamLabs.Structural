@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -76,8 +76,8 @@ Material:
     - _OutlineDepthSensitivity: 9.7
     - _OutlineNormalSensitivity: 0
     - _OutlineSmoothness: 0
-    - _OutlineThickness: 1.62
-    - _OutlineThreshold: 0.109
+    - _OutlineThickness: 1.89
+    - _OutlineThreshold: 0.049
     - _OutlineWidth: 0.041
     - _Parallax: 0.02
     - _Shininess: 0.7

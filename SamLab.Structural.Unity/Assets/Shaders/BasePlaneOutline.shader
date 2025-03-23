@@ -1,88 +1,63 @@
-Shader "Unlit/Outline"
+Shader "Custom/TwoSidedTransparentBorder"
 {
     Properties
     {
-        _Color ("Main Color", Color) = (1,1,1,1)
-
-        _OutlineColor ("Outline Color", Color) = (0,0,0,1)
-        _OutlineWidth ("Outline Width", Range(0, 0.1)) = 0.03
+        _MainColor ("Center Color", Color) = (0.5, 0.5, 0.5, 0.2)
+        _BorderColor ("Border Color", Color) = (1, 1, 1, 1)
+        _BorderSize ("Border Size", Range(0, 0.5)) = 0.05
     }
-
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha // Enable transparency
-        ZWrite Off // Prevent depth issues for transparency
-        Cull Off // Double-sided rendering
-
-        // Main Pass (Unlit, Double-Sided)
+        Tags {"Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True"}
+        LOD 100
+        
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off // This disables backface culling, making the shader two-sided
+        
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #include "UnityCG.cginc"
             
-            float4 _Color;
-
             struct appdata
             {
                 float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
             };
-
+            
             struct v2f
             {
-                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
             };
-
-            v2f vert(appdata v)
+            
+            float4 _MainColor;
+            float4 _BorderColor;
+            float _BorderSize;
+            
+            v2f vert (appdata v)
             {
                 v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
                 return o;
             }
-
-            half4 frag(v2f i) : SV_TARGET
+            
+            fixed4 frag (v2f i) : SV_Target
             {
-                return _Color; // Solid color with transparency
-            }
-            ENDCG
-        }
-
-        // Outline Pass
-        Pass
-        {
-            Tags { "LightMode"="Always" }
-            Cull Front // Cull front faces to draw the outline behind the model
-
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            float _OutlineWidth;
-            float4 _OutlineColor;
-
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-            };
-
-            struct v2f
-            {
-                float4 pos : SV_POSITION;
-            };
-
-            v2f vert(appdata v)
-            {
-                v2f o;
-                v.vertex.xyz += v.normal * _OutlineWidth; // Expand vertices for outline
-                o.pos = UnityObjectToClipPos(v.vertex);
-                return o;
-            }
-
-            half4 frag(v2f i) : SV_TARGET
-            {
-                return _OutlineColor; // Solid outline color
+                // Convert UV to distance from edge
+                float2 centered = abs(i.uv - 0.5) * 2; // Convert 0-1 to distance from center
+                float maxDist = max(centered.x, centered.y);
+                
+                // If near edge, use border color
+                if (maxDist > (1.0 - _BorderSize * 2)) {
+                    return _BorderColor;
+                } else {
+                    return _MainColor;
+                }
             }
             ENDCG
         }

@@ -4,15 +4,30 @@ using UnityEngine;
 
 namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
 {
-    public class WorkPlane: MonoBehaviour, IReferenceGeometry, IPlane
+    public class WorkPlane : MonoBehaviour, IReferenceGeometry, IPlane
     {
         [SerializeField] private string _name;
         [SerializeField] private bool _isVisible;
         [SerializeField] private bool _isActive;
 
-        public string Name { get => _name; set => _name = value; }
-        public bool IsVisible { get => _isVisible; set => _isVisible = value; }
-        public bool IsActive { get => _isActive; set => _isActive = value; }
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set => _isVisible = value;
+        }
+
+        public bool IsActive
+        {
+            get => _isActive;
+            set => _isActive = value;
+        }
+
         public Vector3 Direction1
         {
             get => transform.right;
@@ -43,7 +58,6 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
             set => transform.rotation = value;
         }
 
-
         private void Start()
         {
             Rotation = transform.rotation;
@@ -51,7 +65,7 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
             Normal = transform.forward;
             Direction1 = transform.right;
             Direction2 = transform.up;
-            WorkspaceManager workspaceManager = FindFirstObjectByType<WorkspaceManager>();
+            var workspaceManager = FindFirstObjectByType<WorkspaceManager>();
             workspaceManager.Workplanes.Add(this);
             Initialize();
         }
@@ -60,8 +74,5 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
         {
             Normal = transform.forward;
         }
-
-
-
     }
 }

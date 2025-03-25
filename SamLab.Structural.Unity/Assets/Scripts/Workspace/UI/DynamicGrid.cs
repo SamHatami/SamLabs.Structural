@@ -1,85 +1,75 @@
 using UnityEngine;
-
 namespace Assets.Scripts.Workspace.UI
 {
     //Source https://discussions.unity.com/t/in-game-infinite-grids/604479/5
     public class DynamicGrid : MonoBehaviour
     {
-        public Material GLMat;
-        public int gridCount = 5; //number of grids to draw on each side of the look position (half size)
-        public float gridSize = 1.0f; //spacing between gridlines
+        public Material material;
+        [Range(0.0001f, 0.01f)]
+        public float referenceThickness = 0.005f;
+        [Range(1f, 50f)]
+        public float referenceOrthoSize = 5f;
+        public float gridHeight = 0f; // Height of the grid (Y position)
+        public bool allowGridMovement = true; // Toggle to enable/disable grid following
 
-        Ray ray;
-        float rayDist;
-        Vector3 lookPosition;
-        Plane world = new Plane(Vector3.up, Vector3.zero); //world plane to draw the grid on
-        UnityEngine.Camera cam;
+        private UnityEngine.Camera mainCamera;
 
-
-
-        void Start()
+        void Awake()
         {
-            cam = GetComponent<UnityEngine.Camera>();
-            GLMat.renderQueue = 1;
-
+            mainCamera = UnityEngine.Camera.main;
+            AdjustLineThickness();
         }
 
         void Update()
         {
-            //ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-            //world.Raycast(ray, out rayDist);
-            //lookPosition = ray.GetPoint(rayDist);
-        }
+            AdjustLineThickness();
 
-        void OnPostRender()
-        {
-            GL.PushMatrix();
-            GLMat.SetPass(0);
-            GL.Begin(GL.LINES);
-
-            Vector3 rounedPos = new Vector3(Round(lookPosition.x), 0, Round(lookPosition.z));
-
-            //Actual look position
-            //GL.Color(Color.black);
-            //GL.Vertex(lookPosition);
-            //GL.Vertex(lookPosition + Vector3.up);
-
-            GL.Color(Color.white);
-
-            //Major x line
-            GL.Vertex( new Vector3(gridCount * gridSize, 0, 0));
-            GL.Vertex( new Vector3(-gridCount * gridSize, 0, 0));
-            //Major z line
-            GL.Vertex( new Vector3(0, 0, gridCount * gridSize));
-            GL.Vertex( new Vector3(0, 0, -gridCount * gridSize));
-
-            GL.Color(Color.red);
-
-            for (int i = 1; i < gridCount + 1; i++)
+            if (allowGridMovement)
             {
-                //positive x lines
-                GL.Vertex(new Vector3(i * gridSize, 0, gridCount * gridSize));
-                GL.Vertex(new Vector3(i * gridSize, 0, -gridCount * gridSize));
-                //negative x lines
-                GL.Vertex(new Vector3(-i * gridSize, 0, gridCount * gridSize));
-                GL.Vertex(new Vector3(-i * gridSize, 0, -gridCount * gridSize));
-                //positive z lines
-                GL.Vertex(new Vector3(gridCount * gridSize, 0, i * gridSize));
-                GL.Vertex(new Vector3(-gridCount * gridSize, 0, i * gridSize));
-                //negative z lines
-                GL.Vertex(new Vector3(gridCount * gridSize, 0, -i * gridSize));
-                GL.Vertex(new Vector3(-gridCount * gridSize, 0, -i * gridSize));
-
-
+                PositionGridWithCamera();
             }
 
-            GL.End();
-            GL.PopMatrix();
+            // Always make the grid face the camera regardless of position
+            transform.LookAt(mainCamera.transform);
         }
 
-        float Round(float x)
+        void AdjustLineThickness()
         {
-            return Mathf.Round(x / gridSize) * gridSize;
+            float currentOrtho = mainCamera.orthographicSize;
+            float ratio = currentOrtho / referenceOrthoSize;
+            float adjustedThickness = referenceThickness * ratio;
+            adjustedThickness = Mathf.Clamp(adjustedThickness, 0.0001f, 0.01f);
+            material.SetFloat("_Thickness", adjustedThickness);
+        }
+
+        void PositionGridWithCamera()
+        {
+            // Only adjust grid position when camera is at right angles
+            // Check if camera is looking straight down (or nearly so)
+            float dotProduct = Vector3.Dot(mainCamera.transform.forward, Vector3.down);
+
+            if (dotProduct > 0.9f) // 0.9 corresponds to roughly 25 degrees from vertical
+            {
+                // Camera is looking down at a steep angle, position grid below camera
+                Vector3 gridPosition = new Vector3(
+                    mainCamera.transform.position.x,
+                    gridHeight,
+                    mainCamera.transform.position.z
+                );
+
+                // Cast a ray down from the camera to find intersection with the floor plane
+                Ray ray = new Ray(mainCamera.transform.position, Vector3.down);
+                Plane floorPlane = new Plane(Vector3.up, new Vector3(0, gridHeight, 0));
+
+                float distance;
+                if (floorPlane.Raycast(ray, out distance))
+                {
+                    // Position grid at intersection point
+                    gridPosition = ray.GetPoint(distance);
+                }
+
+                transform.position = gridPosition;
+            }
         }
     }
 }

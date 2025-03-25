@@ -11,7 +11,7 @@ namespace Assets.Scripts.Workspace.Managers
         [SerializeField] private WorkspaceManager _workspaceManager;
         [SerializeField] public float NodeSnapTolerance { get; set; } = 0.1f;
         [SerializeField] public bool EnableNodeSnapping { get; set; } = true;
-        [SerializeField] public bool EnableGridSnapping { get; set; } = false;
+        [SerializeField] public bool EnableGridSnapping { get; set; } = true;
         [SerializeField] public bool EnableWorkPlaneSnapping { get; set; } = true;
         [SerializeField] public float GridSize { get; set; } = 1f; //this should be coming from workspace settings
         [SerializeField] public WorkPlane ActiveWorkPlane { get; set; }

@@ -26,9 +26,7 @@ namespace Assets.Scripts.Core.Application
 
         void Update()
         {
-            if (Input.GetKey("Q"))
-            {
-            }
+
         }
 
         public void ExecuteCommand(ICommand command)

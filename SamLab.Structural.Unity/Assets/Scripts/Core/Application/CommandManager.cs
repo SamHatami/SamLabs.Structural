@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.Scripts.Core.Interfaces;
 using Assets.Scripts.Structure.Commands;
+using Assets.Scripts.Structure.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.Core.Application
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Core.Application
 
         private void RegisterCommands()
         {
-            Commands.Add(new CreateNodeCommand());
+            Commands.Add(new CreateNodeCommand(FindFirstObjectByType<TrussManager>()));
             Commands.Add(new CreateMemberCommand());
         }
 

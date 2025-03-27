@@ -36,10 +36,12 @@ namespace Assets.Scripts.Structure.Managers
             WorkspaceSnapHandler = FindFirstObjectByType<WorkspaceSnapHandler>();
         }
 
-        public void CreateNode(Vector3 position)
+        public TrussNode CreateNode(Vector3 position)
         {
             var node = _trussFactory.CreateNode(position, this);
             AddNode(node);
+
+            return node;
         }
 
         public void CreateMember(TrussNode startNode, TrussNode endNode)
@@ -60,8 +62,16 @@ namespace Assets.Scripts.Structure.Managers
         public void DeleteNode(TrussNode node)
         {
             RemoveNode(node);
-            Destroy(node.gameObject);
+            Destroy(node.gameObject); // this shouldn.t be called if using undo/redo
         }
+
+        private void DeactivateNode(TrussNode node)
+        {
+            if (!_selectedNodes.Contains(node))
+                return;
+            _selectedNodes.Remove(node);
+        }
+
 
         public void DeleteMember(TrussElement element)
         {
@@ -69,7 +79,7 @@ namespace Assets.Scripts.Structure.Managers
             Destroy(element.gameObject);
         }
 
-        private void AddNode(TrussNode node)
+        public void AddNode(TrussNode node)
         {
             if (Nodes.Contains(node))
                 return;

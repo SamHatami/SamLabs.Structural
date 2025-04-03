@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3681737430131521898
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,23 +20,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Grid Simple
-  m_Shader: {fileID: 4800000, guid: ae5e68a9703054b40aa016962e4fac13, type: 3}
+  m_Name: SamGrid
+  m_Shader: {fileID: 4800000, guid: 8fa17fcba46856c48a37f6b38b58f2e4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _FACENORMALS
-  - _FIXEDWIDTH_ON
-  - _QUADIFY
-  - _VERTEXNORMALS
-  - _VERTEXTANGENTS
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -53,10 +62,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MaskTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -93,59 +98,53 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _BaseGridSize: 1
-    - _BaseThickness: 0.02
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _CenterLineThickness: 0.01
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistanceToCamera: 8
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FadeDistance: 0.92
-    - _FadeEnd: 0.771
-    - _FadeStart: 0.289
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _GraduationScale: 100
-    - _GridLevels: 3
+    - _FadeEnd: 0.68
+    - _FadeStart: 0.927
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GridCellSize: 0.5
+    - _GridMinPixelsBetweenCells: 1
+    - _GridSize: 300
+    - _LineThicknessFactor: 11.73
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _PrimaryAlpha: 0.804
-    - _PrimaryThickness: 0.0030999999
+    - _OpacityFalloff: 10
+    - _OriginLineThickness: 1
+    - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Scale: 1
-    - _SecondaryAlpha: 0.178
-    - _SecondaryFadeInSpeed: 0.32
-    - _SecondaryThickness: 0.00076260004
+    - _ShadowsEnabled: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _SubdivisionFactor: 10
     - _Surface: 0
-    - _Thickness: 0.0066199997
-    - _TransitionSmoothing: 0.1
-    - _ViewScale: 4.05
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BackgroundColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.21698105, g: 0.20572263, b: 0.20572263, a: 1}
+    - _CenterLineColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PrimaryColor: {r: 0.6037736, g: 0.5739859, b: 0.43574226, a: 1}
-    - _SecondaryColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GridColorThick: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 0.5882353}
+    - _GridColorThin: {r: 0.45283014, g: 0.43360624, b: 0.43360624, a: 0.3882353}
+    - _LightDirection: {r: 1, g: 1, b: 1, a: 1}
+    - _OriginColor: {r: 0.9245283, g: 0.48798424, b: 0.1439124, a: 0.65882355}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

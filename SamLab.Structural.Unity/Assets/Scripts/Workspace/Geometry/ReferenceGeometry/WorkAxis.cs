@@ -7,21 +7,18 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
 {
     public class WorkAxis : MonoBehaviour, IReferenceGeometry
     {
-
         private readonly float _pixelWidth = 2f;
         private LineRenderer _lineRenderer;
-
 
         public void Start()
         {
             _lineRenderer = GetComponent<LineRenderer>();
             if (_lineRenderer == null)
                 _lineRenderer = gameObject.AddComponent<LineRenderer>();
-
         }
+
         public void Initialize()
         {
-
             // Configure the LineRenderer
             _lineRenderer.positionCount = 2;
         }
@@ -30,8 +27,7 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
         public bool IsVisible { get; set; } = true;
         public bool IsActive { get; set; }
 
-
-        void Update()
+        private void Update()
         {
             if (IsVisible)
             {
@@ -46,13 +42,13 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
 
         private void NormalizeLineWidth()
         {
-            Vector3 midPoint = transform.position;
+            var midPoint = transform.position;
 
             // Get distance from camera to the midpoint
-            float distanceToCamera = Vector3.Distance(midPoint, UnityEngine.Camera.main.transform.position);
+            var distanceToCamera = Vector3.Distance(midPoint, UnityEngine.Camera.main.transform.position);
 
             // Calculate width based on screen space size and distance
-            float worldSpaceWidth = _pixelWidth * distanceToCamera / 1000f;
+            var worldSpaceWidth = _pixelWidth * distanceToCamera / 1000f;
 
             // Apply the calculated width to line renderer
             _lineRenderer.startWidth = worldSpaceWidth;

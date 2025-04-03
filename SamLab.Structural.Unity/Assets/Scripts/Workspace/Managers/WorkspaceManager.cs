@@ -29,7 +29,7 @@ namespace Assets.Scripts.Workspace.Managers
         private void Start()
         {
             _settings = new WorkspaceSettings();
-            CreateNewWorkPlane();
+     
 
         }
 

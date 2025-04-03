@@ -2,6 +2,8 @@
 using Assets.Scripts.Structure.Managers;
 using SamLab.Structural.Core.Elements;
 using System.Collections.Generic;
+using Assets.Scripts.Structure.Base.Loads;
+using Assets.Scripts.Workspace.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.Structure.Base
@@ -12,7 +14,8 @@ namespace Assets.Scripts.Structure.Base
         [SerializeField] private List<TrussStructure> _parentStructures;
         [SerializeField] private bool _isShared;
         [SerializeField] private bool _isMovable;
-
+        [SerializeField] private bool _isSelected;
+        [SerializeField] private PointLoad _load;
         public bool IsShared
         {
             get => _isShared;
@@ -80,10 +83,13 @@ namespace Assets.Scripts.Structure.Base
             //TODO:  I will need some transforms gizmos here.
             //TODO: spacemovement should be dependant of the direction of the drag.
 
+            //if(InteractionHandler.IsOccupied)
+            //    return;
+
             if (!IsMovable)
                 return;
 
-            var mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
+            var mousePosition = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
             var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
             var finalPosition = ParentStructures[0].WorkspaceSnapHandler

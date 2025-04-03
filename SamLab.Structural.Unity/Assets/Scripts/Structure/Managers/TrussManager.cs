@@ -41,8 +41,18 @@ namespace Assets.Scripts.Structure.Managers
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetKeyUp(KeyCode.A)) ActiveStructure.CreateMember(new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+            if (Input.GetKeyUp(KeyCode.A)) ActiveStructure.CreateMember(new Vector3(0, 0, 0), new Vector3(1, 0, 0));
+
         }
 
+        public void SetActiveStructure(TrussStructure structure)
+        {
+            ActiveStructure = structure;
+        }
+
+        public void AddLoad()
+        {
+
+        }
     }
 }

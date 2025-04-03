@@ -1,52 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using Assets.Scripts.Core.Interfaces;
+﻿using Assets.Scripts.Core.Interfaces;
 using Assets.Scripts.Structure.Commands;
 using Assets.Scripts.Structure.Managers;
+using System.Collections.Generic;
+using Assets.Scripts.Structure.Factories;
+using Assets.Scripts.Workspace.Interaction;
+using Assets.Scripts.Workspace.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.Core.Application
 {
-    public class CommandManager: MonoBehaviour
+    public class CommandManager : MonoBehaviour
     {
-        List<ICommand> Commands;
+        public static CommandManager Instance { get; private set; }
 
+        private List<ICommand> _commands;
+        private Stack<ICommand> _commandHistory;
+        private TrussManager _trussManager;
+        private InteractionHandler _interactionHandler;
+        private TrussFactory _trussFactory;
+        public SelectionInteraction _SelectionInteraction;
+
+
+        void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(this);
+        }
 
         private void Start()
         {
-            Commands = new List<ICommand>();
-
+            _commands = new List<ICommand>();
+            _commandHistory = new Stack<ICommand>();
+            _trussManager = FindFirstObjectByType<TrussManager>();
+            _interactionHandler = FindFirstObjectByType<InteractionHandler>();
+            _trussFactory = FindFirstObjectByType<TrussFactory>();
+            _SelectionInteraction = FindFirstObjectByType<SelectionInteraction>();
             RegisterCommands();
         }
 
         private void RegisterCommands()
         {
-            Commands.Add(new CreateNodeCommand(FindFirstObjectByType<TrussManager>()));
-            Commands.Add(new CreateMemberCommand());
+            //if we have a lot of commands, we can use reflection to automatically register them?
+       
+            _commands.Add(new CreateNode(_trussManager,_interactionHandler));
+            _commands.Add(new ElementCommands.CreateElement());
+            _commands.Add(new AddPointLoad(_trussManager, _trussFactory, _SelectionInteraction));
         }
 
-        void Update()
+        private void Update()
+        {
+            if(Input.GetKeyUp(KeyCode.S))
+            {
+                var addLoad = new AddPointLoad(_trussManager, _trussFactory, _SelectionInteraction);
+                ExecuteCommand(addLoad);
+            }
+
+            //Handle keys inputs for commands here?
+            //Dictionary that holds input keys and commands?
+        }
+
+        public void CancelActiveCommand()
         {
 
         }
 
         public void ExecuteCommand(ICommand command)
         {
-            command.Execute();
-        }
-    }
 
-    internal class CreateMemberCommand : ICommand
-    {
-        public string Name { get; set; }
-        public void Execute()
-        {
-            throw new NotImplementedException();
+            if (command is ICoroutineCommand coroutineCommand)
+            {
+                StartCoroutine(coroutineCommand.ExecuteCoroutine());
+            }
+            else
+            {
+                command.Execute();
+            }
+
+            _commandHistory.Push(command);
         }
 
-        public void Undo()
+        public void UndoCommand()
         {
-            throw new NotImplementedException();
+            _commandHistory.Pop();
         }
     }
 }

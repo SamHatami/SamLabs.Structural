@@ -12,7 +12,13 @@ namespace Assets.Scripts.Workspace.Managers
         [SerializeField] public float NodeSnapTolerance { get; set; } = 0.1f;
         [SerializeField] public bool EnableNodeSnapping { get; set; } = true;
         [SerializeField] public bool EnableGridSnapping { get; set; } = true;
-        [SerializeField] public bool EnableWorkPlaneSnapping { get; set; } = true;
+        [SerializeField] private bool _enableWorkPlaneSnapping = true; //this should be coming from workspace settings
+
+        public bool EnableWorkPlaneSnapping
+        {
+            get => _enableWorkPlaneSnapping;
+            set => _enableWorkPlaneSnapping = value;
+        } 
         [SerializeField] public float GridSize { get; set; } = 1f; //this should be coming from workspace settings
         [SerializeField] public WorkPlane ActiveWorkPlane { get; set; }
         [SerializeField] public WorkspaceSettings Settings { get; set; }

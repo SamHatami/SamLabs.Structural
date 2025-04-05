@@ -26,6 +26,13 @@ namespace Assets.Scripts.Workspace.Managers
 
         private WorkspaceSettings _settings;
 
+        void Awake()
+        {
+            if (XYPlane != null) XYPlane.GetComponent<BasePlane>().Initialize();
+            if (YZPlane != null) YZPlane.GetComponent<BasePlane>().Initialize();
+            if (XZPlane != null) XZPlane.GetComponent<BasePlane>().Initialize();
+        }
+
         private void Start()
         {
             _settings = new WorkspaceSettings();
@@ -40,7 +47,7 @@ namespace Assets.Scripts.Workspace.Managers
             Workplanes.Add(wp);
             _snapHandler.ActiveWorkPlane = wp;
 
-            UnityEngine.Camera.main.transform.LookAt(_snapHandler.ActiveWorkPlane.transform);
+            UnityEngine.Camera.main.transform.LookAt(_snapHandler.ActiveWorkPlane.Origo);
         }
 
         public WorkspaceSettings GetSnapSettings()

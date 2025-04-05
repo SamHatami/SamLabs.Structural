@@ -13,7 +13,7 @@ namespace Assets.Scripts.Structure.Base
         //[SerializeField] private bool RenderLine = true;
 
         [Tooltip("Base width of the line in screen pixels")]
-        public float screenSpaceWidth = 10f;
+        public float screenSpaceWidth = 1f;
 
         private LineRenderer _lineRenderer;
         private TrussStructure _parentStructure;
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Structure.Base
             EndNode.ConnectedElements.Add(this);
             _lineRenderer = gameObject.GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 2;
-            _lineRenderer.startWidth = 10f;
+            _lineRenderer.startWidth = screenSpaceWidth;
         }
 
         // Update is called once per frame
@@ -66,13 +66,14 @@ namespace Assets.Scripts.Structure.Base
 
         private void NormalizeLineWidth()
         {
-            var midPoint = (StartNode.transform.position + EndNode.transform.position) / 2f;
-            var distanceToCamera = Vector3.Distance(midPoint, Camera.main.transform.position);
+            //var midPoint = (StartNode.transform.position + EndNode.transform.position) / 2f;
+            //var distanceToCamera = Vector3.Distance(midPoint, Camera.main.transform.position);
 
-            var worldSpaceWidth = screenSpaceWidth * distanceToCamera / 1000f;
+            //var worldSpaceWidth = screenSpaceWidth * distanceToCamera / 1000f;
 
-            _lineRenderer.startWidth = worldSpaceWidth;
-            _lineRenderer.endWidth = worldSpaceWidth;
+            //_lineRenderer.startWidth = worldSpaceWidth;
+            //_lineRenderer.endWidth = worldSpaceWidth;
         }
+
     }
 }

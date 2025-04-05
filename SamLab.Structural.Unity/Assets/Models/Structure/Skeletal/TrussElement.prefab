@@ -152,4 +152,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4662df8c1a8a0af429af48c3c7af40cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenSpaceWidth: 10
+  screenSpaceWidth: 20

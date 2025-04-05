@@ -24,15 +24,15 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
         public Vector3 Origo { get; set; } = Vector3.zero;
         public Quaternion Rotation { get; set; }
 
+        private UnityEngine.Camera mainCamera;
+        private MeshFilter planeMesh;
 
         public void Initialize()
         {
-            throw new NotImplementedException();
-        }
+            mainCamera = UnityEngine.Camera.main;
+            planeMesh = GetComponentInChildren<MeshFilter>();
+            var centerPoint = transform.GetChild(0).TransformPoint(planeMesh.mesh.bounds.center);
 
-
-        private void Start()
-        {
             switch (SelectedBasePlane)
             {
                 case BasePlaneEnum.XY:
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
                     Direction2 = Vector3.up;
                     Normal = Vector3.forward;
                     name = "XY Plane";
-                    Rotation = Quaternion.Euler(0,0,0);
+                    Rotation = Quaternion.Euler(0, 0, 0);
                     break;
                 case BasePlaneEnum.YZ:
                     Direction1 = Vector3.up;
@@ -57,7 +57,24 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
                     Rotation = Quaternion.Euler(0, 0, 0);
                     break;
             }
+        }
 
+        void Awake()
+        {
+
+
+        }
+
+
+        private void Start()
+        {
+
+
+        }
+
+        void Update()
+        {
+            
         }
     }
 }

@@ -3,8 +3,10 @@ using Assets.Scripts.Structure.Managers;
 using SamLab.Structural.Core.Elements;
 using System.Collections.Generic;
 using Assets.Scripts.Structure.Base.Loads;
+using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
 using Assets.Scripts.Workspace.Managers;
 using UnityEngine;
+using MathNet.Numerics;
 
 namespace Assets.Scripts.Structure.Base
 {
@@ -59,6 +61,7 @@ namespace Assets.Scripts.Structure.Base
             IsMovable = true;
         }
 
+
         public void OnMouseDown()
         {
             //Change color to selected or outline
@@ -76,26 +79,45 @@ namespace Assets.Scripts.Structure.Base
             if (!ConnectedElements.Contains(element))
                 ConnectedElements.Add(element);
         }
-
         public void OnMouseDrag()
         {
-            //TODO : Do I really need to create a new Vector3 every frame?,
-            //TODO:  I will need some transforms gizmos here.
-            //TODO: spacemovement should be dependant of the direction of the drag.
-
-            //if(InteractionHandler.IsOccupied)
-            //    return;
-
             if (!IsMovable)
                 return;
 
-            var mousePosition = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
-            var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            // Get the current camera
+            Camera camera = Camera.main;
 
-            var finalPosition = ParentStructures[0].WorkspaceSnapHandler
-                .ProcessNodeDragPosition(this, worldPosition, ParentStructures[0]);
+            // Create a ray from the camera through the mouse position
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            transform.position = finalPosition;
+            // Define the plane for intersection
+            Plane dragPlane;
+            if (ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane != null)
+            {
+                // Use the active workspace plane
+                Vector3 planeNormal = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Normal;
+                Vector3 planePoint = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Origo;
+                dragPlane = new Plane(planeNormal, planePoint);
+            }
+            else
+            {
+                // Fallback: Use a plane perpendicular to the camera view
+                dragPlane = new Plane(camera.transform.forward, transform.position);
+            }
+
+            // Check if the ray intersects the plane
+            if (dragPlane.Raycast(ray, out float distance))
+            {
+                // Get the intersection point
+                Vector3 hitPoint = ray.GetPoint(distance);
+
+                // Process through snap handler for grid snapping, etc.
+                Vector3 finalPosition = ParentStructures[0].WorkspaceSnapHandler
+                    .ProcessNodeDragPosition(this, hitPoint, ParentStructures[0]);
+
+                // Apply the position
+                transform.position = finalPosition;
+            }
         }
 
         public void OnMouseOver()
@@ -108,7 +130,10 @@ namespace Assets.Scripts.Structure.Base
             if (!IsMovable)
                 return;
 
-            ParentStructures[0].WorkspaceSnapHandler.ProcessNodeRelease(this, ParentStructures[0]);
+            if (_isSelected)
+                ParentStructures[0].WorkspaceSnapHandler.ProcessNodeRelease(this, ParentStructures[0]);
+            else
+                _isSelected = true;
         }
 
         public void AddParentStructure(TrussStructure structure)

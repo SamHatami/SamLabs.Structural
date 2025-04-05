@@ -49,29 +49,31 @@ namespace Assets.Scripts.Workspace.Camera
             float rotationY = 0f;
 
             float ZoomInput = Input.GetAxis("Mouse ScrollWheel") * ZoomSpeed;
+            MainCamera.orthographicSize -= ZoomInput;
+
             ZoomInputIndex += ZoomInput * ZoomInputAdjust;
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(2))
             {
-                if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
-                {
-                    float revY = Input.GetAxis("Mouse Y");
-                    float revX = Input.GetAxis("Mouse X");
 
-
-                    transform.RotateAround(GetFocusPoint(), Vector3.up, revX * RevolutionSpeed * Time.deltaTime);
-                    transform.RotateAround(GetFocusPoint(), transform.right, -revY * RevolutionSpeed * Time.deltaTime);
-                }
-                else
-                {
                     translateY = Input.GetAxis("Mouse Y") * (MovementSpeed / ZoomInputIndex);
                     translateX = Input.GetAxis("Mouse X") * (MovementSpeed / ZoomInputIndex);
-                }
+
             }
             else if (Input.GetMouseButton(1))
             {
                 rotationY = Input.GetAxis("Mouse Y") * RotationSpeed;
                 rotationX = Input.GetAxis("Mouse X") * RotationSpeed;
+            }
+
+            else if (Input.GetMouseButton(2) && Input.GetKey(KeyCode.LeftShift))
+            {
+                float revY = Input.GetAxis("Mouse Y");
+                float revX = Input.GetAxis("Mouse X");
+
+
+                transform.RotateAround(GetFocusPoint(), Vector3.up, revX * RevolutionSpeed * Time.deltaTime);
+                transform.RotateAround(GetFocusPoint(), transform.right, -revY * RevolutionSpeed * Time.deltaTime);
             }
 
             transform.Translate(translateX, translateY, ZoomInput);

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Workspace.Interaction
 {
-    public class HoverColorChange : MonoBehaviour
+    public class PlaneHoverColorChange : MonoBehaviour
     {
         [Header("Border Settings")]
         public Color normalBorderColor = Color.white;

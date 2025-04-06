@@ -18,6 +18,8 @@ namespace Assets.Scripts.Structure.Base
         [SerializeField] private bool _isMovable;
         [SerializeField] private bool _isSelected;
         [SerializeField] private PointLoad _load;
+
+
         public bool IsShared
         {
             get => _isShared;
@@ -117,6 +119,7 @@ namespace Assets.Scripts.Structure.Base
 
                 // Apply the position
                 transform.position = finalPosition;
+
             }
         }
 
@@ -130,10 +133,7 @@ namespace Assets.Scripts.Structure.Base
             if (!IsMovable)
                 return;
 
-            if (_isSelected)
-                ParentStructures[0].WorkspaceSnapHandler.ProcessNodeRelease(this, ParentStructures[0]);
-            else
-                _isSelected = true;
+            ParentStructures[0].WorkspaceSnapHandler.ProcessNodeRelease(this, ParentStructures[0]);
         }
 
         public void AddParentStructure(TrussStructure structure)

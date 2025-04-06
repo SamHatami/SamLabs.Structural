@@ -1,17 +1,51 @@
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class ScaleToCamera : MonoBehaviour
 {
     [SerializeField] private float _worldScale = 1;
-    void Start()
+    [SerializeField] private bool LockXScale= false;
+    [SerializeField] private bool LockYScale= false;
+    [SerializeField] private bool LockZScale= false;
+
+    private float oldCameraSize = 0;
+
+    void Awake()
     {
-        transform.localScale = new Vector3(_worldScale, _worldScale, _worldScale);
+        SetScale();
+    }
+
+    void OnEnable()
+    {
+        SetScale();
+    }
+
+    private void SetScale()
+    {
+
+        var screenSpaceScale = _worldScale * UnityEngine.Camera.main.orthographicSize;
+
+        transform.localScale = new Vector3(
+            LockXScale ? transform.localScale.x : screenSpaceScale,
+            LockYScale ? transform.localScale.y : screenSpaceScale,
+            LockZScale ? transform.localScale.z : screenSpaceScale);
+
     }
 
     void Update()
     {
-        var screenSpaceScale = (_worldScale / 10) * UnityEngine.Camera.main.orthographicSize;
-        transform.localScale = new Vector3(screenSpaceScale, screenSpaceScale, screenSpaceScale);
+        if(oldCameraSize == Camera.main.orthographicSize)
+        {
+            return;
+        }
+
+        oldCameraSize = UnityEngine.Camera.main.orthographicSize;
+
+        SetScale();
 
     }
+
+
+    
+
 }

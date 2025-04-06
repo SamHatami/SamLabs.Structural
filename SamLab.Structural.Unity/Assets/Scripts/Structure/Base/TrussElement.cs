@@ -1,5 +1,6 @@
 using Assets.Scripts.Core.Interfaces;
 using Assets.Scripts.Structure.Managers;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Structure.Base
@@ -13,10 +14,12 @@ namespace Assets.Scripts.Structure.Base
         //[SerializeField] private bool RenderLine = true;
 
         [Tooltip("Base width of the line in screen pixels")]
-        public float screenSpaceWidth = 1f;
 
-        private LineRenderer _lineRenderer;
         private TrussStructure _parentStructure;
+
+        private Vector3 oldEndNodePosition;
+        private Vector3 oldStartNodePosition;
+        private float length;
 
         public void Initialize(TrussStructure parentStructure, TrussNode startNode, TrussNode endNode)
         {
@@ -25,21 +28,37 @@ namespace Assets.Scripts.Structure.Base
             EndNode = endNode;
             StartNode.ConnectedElements.Add(this);
             EndNode.ConnectedElements.Add(this);
-            _lineRenderer = gameObject.GetComponent<LineRenderer>();
-            _lineRenderer.positionCount = 2;
-            _lineRenderer.startWidth = screenSpaceWidth;
+            length = Vector3.Distance(StartNode.transform.position, EndNode.transform.position);
         }
 
+
+        void Start()
+        {
+            UpdateScaleAndRotation();
+        }
         // Update is called once per frame
         private void Update()
         {
             if(StartNode == null || EndNode == null)
                 return;
 
-            _lineRenderer.SetPosition(0, StartNode.gameObject.transform.position);
-            _lineRenderer.SetPosition(1, EndNode.gameObject.transform.position);
+            if(oldEndNodePosition == EndNode.transform.position && oldStartNodePosition == StartNode.transform.position)
+                return;
 
-            NormalizeLineWidth();
+            oldEndNodePosition = EndNode.transform.position;
+            oldStartNodePosition = StartNode.transform.position;
+
+            UpdateScaleAndRotation();
+
+        }
+
+        private void UpdateScaleAndRotation()
+        {
+
+            length = Vector3.Distance(StartNode.transform.position, EndNode.transform.position);
+            transform.position = StartNode.transform.position;
+            transform.LookAt(EndNode.transform);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, length);
         }
 
         public void SetStartNode(TrussNode newStartNode)
@@ -63,17 +82,6 @@ namespace Assets.Scripts.Structure.Base
             if (EndNode != null)
                 EndNode.AddConnectedElement(this);
         }
-
-        private void NormalizeLineWidth()
-        {
-            //var midPoint = (StartNode.transform.position + EndNode.transform.position) / 2f;
-            //var distanceToCamera = Vector3.Distance(midPoint, Camera.main.transform.position);
-
-            //var worldSpaceWidth = screenSpaceWidth * distanceToCamera / 1000f;
-
-            //_lineRenderer.startWidth = worldSpaceWidth;
-            //_lineRenderer.endWidth = worldSpaceWidth;
-        }
-
+        
     }
 }

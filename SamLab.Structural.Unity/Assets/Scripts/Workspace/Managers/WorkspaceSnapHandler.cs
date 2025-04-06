@@ -15,6 +15,8 @@ namespace Assets.Scripts.Workspace.Managers
         [SerializeField] private bool _enableGridSnapping  = false;
         [SerializeField] private bool _enableWorkPlaneSnapping = true; //this should be coming from workspace settings
 
+        [SerializeField] private GameObject _gridSnapAdorner;
+        [SerializeField] private GameObject _mergeNodeAdorner;
         private BasePlane _XYPlane { get; set; }
         private BasePlane _ZXPlane { get; set; }
         private BasePlane _YZPlane { get; set; }
@@ -62,8 +64,17 @@ namespace Assets.Scripts.Workspace.Managers
             {
                 var nearestGridNode = SnapToGrid(finalPosition);
 
-                if (Vector3.Distance(nearestGridNode, finalPosition) < 0.1)
+                if (Vector3.Distance(nearestGridNode, finalPosition) < 0.25)
+                {
+                    _gridSnapAdorner.transform.position = nearestGridNode;
+                    _gridSnapAdorner.SetActive(true);
                     finalPosition = nearestGridNode;
+                }
+                else
+                {
+                    _gridSnapAdorner.SetActive(false);
+                }
+
             }
 
             if (!_enableNodeSnapping)
@@ -72,8 +83,15 @@ namespace Assets.Scripts.Workspace.Managers
             var nearestNode = NodeUtils.FindNearestNode(node, finalPosition, parentStructure, NodeSnapTolerance);
 
 
-            if (nearestNode != null) return nearestNode.transform.position;
+            if (nearestNode != null)
+            {
+                _mergeNodeAdorner.transform.position = nearestNode.transform.position;
+                _mergeNodeAdorner.SetActive(true);
+                return nearestNode.transform.position;
+            }
+            _mergeNodeAdorner.SetActive(false);
 
+        
             return finalPosition;
         }
 
@@ -99,7 +117,9 @@ namespace Assets.Scripts.Workspace.Managers
 
         public void ProcessNodeRelease(TrussNode releasedNode, TrussStructure parentStructure)
         {
-           
+
+            _gridSnapAdorner.SetActive(false);
+            _mergeNodeAdorner.SetActive(false);
             if (EnableWorkPlaneSnapping && ActiveWorkPlane != null)
             {
                 Vector3 projectedPosition = ProjectOntoWorkPlane(releasedNode.transform.position);
@@ -112,6 +132,9 @@ namespace Assets.Scripts.Workspace.Managers
                 NodeSnapTolerance);
 
             if (nearestNode != null) NodeUtils.MergeNodes(nearestNode, releasedNode, parentStructure);
+
+
+
         }
     }
 }

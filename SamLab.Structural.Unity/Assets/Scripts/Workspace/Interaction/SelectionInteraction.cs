@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Assets.Scripts.Structure.Base;
 using Assets.Scripts.Structure.Base.Loads;
 using Assets.Scripts.Structure.Managers;
+using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
 using UnityEngine;
 
 namespace Assets.Scripts.Workspace.Interaction
@@ -13,22 +14,21 @@ namespace Assets.Scripts.Workspace.Interaction
     public class SelectionInteraction : MonoBehaviour
     {
         public SelectionFilterEnum Filter;
+        public bool MultiSelect;
         public event Action<TrussNode> NodeSelectionEvent;
         public event Action<TrussElement> ElementSelectionEvent;
         public event Action<PointLoad> LoadSelectionEvent;
         public event Action<TrussStructure> StructureSelectionEvent;
+        public event Action<WorkPoint> WorkPointSelectionEvent;
+        public event Action<WorkPlane> WorkPlaneSelectionEvent;
+
 
         public bool Selecting { get; set; }
 
-        void Update()
+        private void Update()
         {
-
             if (Input.GetMouseButtonUp(0) && Selecting) // 0 = left mouse button
-            {
                 CheckHits();
-            }
-
-
         }
 
         public void StartSelection()
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Workspace.Interaction
         {
             RaycastHit hit;
 
-            Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (!Physics.Raycast(ray, out hit)) return;
             switch (Filter)
@@ -48,29 +48,41 @@ namespace Assets.Scripts.Workspace.Interaction
                 case SelectionFilterEnum.Node:
                     if (hit.collider.gameObject.GetComponent<TrussNode>() != null)
                     {
-                        //invoke NodeSelectionEvent and send back the node that was clicked  
                         NodeSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussNode>());
                         Selecting = false;
-                        this.gameObject.SetActive(false);
+                        gameObject.SetActive(false);
                     }
+
                     break;
                 case SelectionFilterEnum.Element:
                     if (hit.collider.gameObject.GetComponent<TrussElement>() != null)
-                    {
                         ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussElement>());
-                    }
                     break;
                 case SelectionFilterEnum.Load:
                     if (hit.collider.gameObject.GetComponent<PointLoad>() != null)
-                    {
                         LoadSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<PointLoad>());
-                    }
                     break;
                 case SelectionFilterEnum.Structure:
                     if (hit.collider.gameObject.GetComponent<TrussStructure>() != null)
-                    {
                         StructureSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussStructure>());
+                    break;
+                case SelectionFilterEnum.WorkPoint:
+                    if (hit.collider.gameObject.GetComponent<WorkPoint>() != null)
+                    {
+                        WorkPointSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPoint>());
+                        Selecting = false;
+                        gameObject.SetActive(false);
                     }
+
+                    break;
+                case SelectionFilterEnum.WorkPlane:
+                    if (hit.collider.gameObject.GetComponent<WorkPlane>() != null)
+                    {
+                        WorkPlaneSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPlane>());
+                        Selecting = false;
+                        gameObject.SetActive(false);
+                    }
+
                     break;
                 default:
                     break;
@@ -83,6 +95,8 @@ namespace Assets.Scripts.Workspace.Interaction
         Node,
         Element,
         Load,
-        Structure
+        Structure,
+        WorkPoint,
+        WorkPlane
     }
 }

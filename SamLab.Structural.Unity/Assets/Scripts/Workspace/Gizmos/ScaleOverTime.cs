@@ -48,7 +48,7 @@ public class ScaleOverTime : MonoBehaviour
             while (elapsedTime < scaleDuration)
             {
                 float progress = elapsedTime / scaleDuration;
-                float scaleMultiplier = 1f + (Mathf.Sin(progress * Mathf.PI) * (maxScaleMultiplier - 1f));
+                float scaleMultiplier = 1f + 1.5f*(Mathf.Sin(progress * Mathf.PI) * (maxScaleMultiplier - 1f));
                 transform.localScale = _originalScale * scaleMultiplier;
                 elapsedTime += Time.deltaTime;
                 yield return null;

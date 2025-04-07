@@ -118,7 +118,7 @@ Material:
     - _GlossyReflections: 0
     - _GridCellSize: 1
     - _GridMinPixelsBetweenCells: 1
-    - _GridSize: 114.31
+    - _GridSize: 109
     - _LineThicknessFactor: 11.73
     - _Metallic: 0
     - _OcclusionStrength: 1

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamLab.Structural.App", "SamLab.Structural.App.csproj", "{39AA6C0C-B8F3-AE8B-61E6-B231470B802C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{5AEAB757-891C-2EBC-FFAC-D37556CA8364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{F2986CC5-1F43-AEF6-09B7-51097C0DF546}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39AA6C0C-B8F3-AE8B-61E6-B231470B802C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39AA6C0C-B8F3-AE8B-61E6-B231470B802C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39AA6C0C-B8F3-AE8B-61E6-B231470B802C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39AA6C0C-B8F3-AE8B-61E6-B231470B802C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AEAB757-891C-2EBC-FFAC-D37556CA8364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AEAB757-891C-2EBC-FFAC-D37556CA8364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AEAB757-891C-2EBC-FFAC-D37556CA8364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AEAB757-891C-2EBC-FFAC-D37556CA8364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2986CC5-1F43-AEF6-09B7-51097C0DF546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2986CC5-1F43-AEF6-09B7-51097C0DF546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2986CC5-1F43-AEF6-09B7-51097C0DF546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2986CC5-1F43-AEF6-09B7-51097C0DF546}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

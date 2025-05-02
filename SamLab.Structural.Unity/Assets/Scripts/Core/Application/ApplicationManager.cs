@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Analysis.Managers;
-using Assets.Scripts.Workspace.Managers;
+﻿using Analysis.Managers;
 using UnityEngine;
+using Workspace.Managers;
 
-namespace Assets.Scripts.Core.Application
+namespace Core.Application
 {
     public class ApplicationManager : MonoBehaviour
     {
@@ -16,8 +16,5 @@ namespace Assets.Scripts.Core.Application
             _workspaceManager = new WorkspaceManager();
             _analysisManager = new AnalysisManager();
         }
-
-        
-
     }
 }

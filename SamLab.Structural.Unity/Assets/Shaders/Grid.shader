@@ -10,7 +10,10 @@
 
     SubShader
     {
-        Tags {"Queue"="Transparent" "RenderType"="Transparent"}
+        Tags
+        {
+            "Queue"="Transparent" "RenderType"="Transparent"
+        }
         Pass
         {
             Blend SrcAlpha OneMinusSrcAlpha // ✅ Enables transparency
@@ -21,11 +24,13 @@
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            struct VertexInput {
+            struct VertexInput
+            {
                 float3 position : POSITION;
             };
 
-            struct VertexOutput {
+            struct VertexOutput
+            {
                 float4 pos : SV_POSITION;
                 float3 worldPos : TEXCOORD0;
             };

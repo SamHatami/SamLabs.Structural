@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
+﻿namespace Workspace.Geometry.ReferenceGeometry
 {
     public enum BasePlaneEnum
     {

@@ -1,62 +1,65 @@
 using System.Collections;
 using UnityEngine;
 
-public class ScaleOverTime : MonoBehaviour
+namespace Workspace.Gizmos
 {
-    [SerializeField] private float maxScaleMultiplier = 1.5f;
-    [SerializeField] private float scaleDuration = 0.5f;
-    [SerializeField] private float pauseDuration = 0.5f;
-
-    private Vector3 _originalScale;
-    private Coroutine _scaleCoroutine;
-
-    //TODO Make easin functions and tie them to enum handles
-    //[SerializeField]
-    //private EaseInEnum SelectedEaseIn = EaseIn.Quadratic;
-
-    void Awake()
+    public class ScaleOverTime : MonoBehaviour
     {
-        _originalScale = transform.localScale;
-    }
+        [SerializeField] private float maxScaleMultiplier = 1.5f;
+        [SerializeField] private float scaleDuration = 0.5f;
+        [SerializeField] private float pauseDuration = 0.5f;
 
-    void OnEnable()
-    {
-        transform.localScale = _originalScale;
+        private Vector3 _originalScale;
+        private Coroutine _scaleCoroutine;
 
-        if (_scaleCoroutine != null)
-            StopCoroutine(_scaleCoroutine);
+        //TODO Make easin functions and tie them to enum handles
+        //[SerializeField]
+        //private EaseInEnum SelectedEaseIn = EaseIn.Quadratic;
 
-        _scaleCoroutine = StartCoroutine(ScaleObject());
-    }
-
-    void OnDisable()
-    {
-        if (_scaleCoroutine != null)
+        private void Awake()
         {
-            StopCoroutine(_scaleCoroutine);
-            _scaleCoroutine = null;
+            _originalScale = transform.localScale;
         }
 
-        transform.localScale = _originalScale;
-    }
-
-    private IEnumerator ScaleObject()
-    {
-        while (true)
+        private void OnEnable()
         {
-            float elapsedTime = 0f;
-            while (elapsedTime < scaleDuration)
+            transform.localScale = _originalScale;
+
+            if (_scaleCoroutine != null)
+                StopCoroutine(_scaleCoroutine);
+
+            _scaleCoroutine = StartCoroutine(ScaleObject());
+        }
+
+        private void OnDisable()
+        {
+            if (_scaleCoroutine != null)
             {
-                float progress = elapsedTime / scaleDuration;
-                float scaleMultiplier = 1f + 1.5f*(Mathf.Sin(progress * Mathf.PI) * (maxScaleMultiplier - 1f));
-                transform.localScale = _originalScale * scaleMultiplier;
-                elapsedTime += Time.deltaTime;
-                yield return null;
+                StopCoroutine(_scaleCoroutine);
+                _scaleCoroutine = null;
             }
 
             transform.localScale = _originalScale;
+        }
 
-            yield return new WaitForSeconds(pauseDuration);
+        private IEnumerator ScaleObject()
+        {
+            while (true)
+            {
+                var elapsedTime = 0f;
+                while (elapsedTime < scaleDuration)
+                {
+                    var progress = elapsedTime / scaleDuration;
+                    var scaleMultiplier = 1f + 1.5f * (Mathf.Sin(progress * Mathf.PI) * (maxScaleMultiplier - 1f));
+                    transform.localScale = _originalScale * scaleMultiplier;
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+
+                transform.localScale = _originalScale;
+
+                yield return new WaitForSeconds(pauseDuration);
+            }
         }
     }
 }

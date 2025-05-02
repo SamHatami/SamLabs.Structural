@@ -1,7 +1,6 @@
-namespace Assets.Scripts.Analysis.Managers
+namespace Analysis.Managers
 {
     public class AnalysisManager
     {
-    
     }
 }

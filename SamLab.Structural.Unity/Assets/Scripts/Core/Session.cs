@@ -1,7 +1,6 @@
-﻿namespace Assets.Scripts.Core
+﻿namespace Core
 {
-    static class Session
+    internal static class Session
     {
-
     }
 }

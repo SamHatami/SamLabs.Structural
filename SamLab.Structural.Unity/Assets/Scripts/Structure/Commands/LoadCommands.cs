@@ -1,15 +1,14 @@
-﻿using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Base.Loads;
-using Assets.Scripts.Structure.Factories;
-using Assets.Scripts.Structure.Managers;
-using Assets.Scripts.Workspace.Interaction;
-using UnityEngine;
-using System;
+﻿using System;
 using System.Collections;
-using Assets.Scripts.Core.Application;
+using Core.Application;
+using Core.Interfaces;
+using Structure.Base;
+using Structure.Base.Loads;
+using Structure.Factories;
+using Structure.Managers;
+using Workspace.Interaction;
 
-namespace Assets.Scripts.Structure.Commands
+namespace Structure.Commands
 {
     public class AddPointLoad : ICoroutineCommand
     {
@@ -29,11 +28,9 @@ namespace Assets.Scripts.Structure.Commands
 
         public void Execute()
         {
-
             CommandManager.Instance.ExecuteCommand(this);
-
         }
-        
+
         private void OnNodePositionSet(TrussNode obj)
         {
             Node = obj;
@@ -52,7 +49,6 @@ namespace Assets.Scripts.Structure.Commands
 
         public IEnumerator ExecuteCoroutine()
         {
-
             if (Node == null)
             {
                 _selection.gameObject.SetActive(true);
@@ -60,16 +56,11 @@ namespace Assets.Scripts.Structure.Commands
                 _selection.NodeSelectionEvent += OnNodePositionSet;
                 _selection.StartSelection();
 
-                while (_selection.Selecting)
-                {
-                    yield return null;
-                }
-
+                while (_selection.Selecting) yield return null;
             }
 
             if (Node == null)
                 yield break;
-
         }
     }
 

@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Core.Interfaces;
-using System;
+﻿using System;
+using Core.Interfaces;
 
-namespace Assets.Scripts.Structure.Commands
+namespace Structure.Commands
 {
     public class ElementCommands
     {
@@ -11,12 +11,10 @@ namespace Assets.Scripts.Structure.Commands
 
             public void Execute()
             {
-                throw new NotImplementedException();
             }
 
             public void Undo()
             {
-                throw new NotImplementedException();
             }
         }
     }

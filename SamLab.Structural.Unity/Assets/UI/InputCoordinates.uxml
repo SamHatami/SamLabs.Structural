@@ -1,0 +1,11 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="InputCoordinates" data-source-type="Structure.Base.TrussNode, SamLab.Structural.App" style="flex-grow: 1;">
+        <engine:TextField label="x" placeholder-text="filler text" data-source-type="Structure.Base.TrussNode, SamLab.Structural.App">
+            <Bindings>
+                <engine:DataBinding property="value" binding-mode="TwoWay" />
+            </Bindings>
+        </engine:TextField>
+        <engine:TextField label="y" placeholder-text="filler text" data-source-type="InputCoordinates, Assembly-CSharp" />
+        <engine:TextField label="Z" placeholder-text="filler text" data-source-type="InputCoordinates, Assembly-CSharp" />
+    </engine:VisualElement>
+</engine:UXML>

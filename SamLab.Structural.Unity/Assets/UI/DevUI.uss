@@ -1,0 +1,20 @@
+.custom-label {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+.topButtonPanel {
+}
+
+.unity-button {
+    background-color: rgba(77, 77, 77, 0.45);
+    color: rgb(255, 255, 255);
+}
+
+.unity-button:hover {
+    background-color: rgba(67, 67, 67, 0.91);
+}
+
+.topButton {
+}

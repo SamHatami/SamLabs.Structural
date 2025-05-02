@@ -2,7 +2,7 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}  // Not directly used, but good practice
+        _MainTex ("Texture", 2D) = "white" {} // Not directly used, but good practice
         _OutlineColor ("Outline Color", Color) = (1, 0.5, 0, 1)
         _OutlineThickness ("Outline Thickness", Range(0, 10)) = 1
         _OutlineThreshold ("Outline Threshold", Range(0, 1)) = 0.1
@@ -36,7 +36,7 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -88,10 +88,11 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
             }
 
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 float edge = SobelSample(i.uv);
-                edge = smoothstep(_OutlineThreshold - _OutlineSmoothness * 0.5, _OutlineThreshold + _OutlineSmoothness * 0.5, edge);
+                edge = smoothstep(_OutlineThreshold - _OutlineSmoothness * 0.5,
+                                _OutlineThreshold + _OutlineSmoothness * 0.5, edge);
                 return fixed4(edge, edge, edge, 1); // Grayscale edge mask
             }
             ENDCG
@@ -107,7 +108,7 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
             #pragma fragment frag
             #include "UnityCG.cginc"
 
-              struct appdata
+            struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
@@ -119,7 +120,7 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
                 float4 vertex : SV_POSITION;
             };
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -131,9 +132,9 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
             sampler2D _SourceTex; // This will be the original scene render
             float4 _MainTex_TexelSize; // Texel size of the edge mask
             float4 _OutlineColor;
-            float _OutlineThickness;  // You might want separate thickness control here
+            float _OutlineThickness; // You might want separate thickness control here
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 // Simple box blur (3x3) -  you can replace with a better blur
                 float edge = 0;
@@ -141,36 +142,36 @@ Shader "Camera/ScreenSpaceOutlineRoundedCamera"
 
                 // This is more accurate than a 3x3, but it's a 5x5 blur.
                 float weights[5] = {0.06136, 0.24477, 0.38774, 0.24477, 0.06136}; // Gaussian weights, normalized
-				edge += tex2D(_MainTex, i.uv + float2(-2.0*delta.x, -2.0*delta.y)).r * weights[0] * weights[0];
-				edge += tex2D(_MainTex, i.uv + float2(-1.0*delta.x, -2.0*delta.y)).r * weights[1] * weights[0];
-				edge += tex2D(_MainTex, i.uv + float2(0.0, -2.0*delta.y)).r * weights[2] * weights[0];
-				edge += tex2D(_MainTex, i.uv + float2(1.0*delta.x, -2.0*delta.y)).r * weights[3] * weights[0];
-				edge += tex2D(_MainTex, i.uv + float2(2.0*delta.x, -2.0*delta.y)).r * weights[4] * weights[0];
-				
-				edge += tex2D(_MainTex, i.uv + float2(-2.0*delta.x, -1.0*delta.y)).r * weights[0] * weights[1];
-				edge += tex2D(_MainTex, i.uv + float2(-1.0*delta.x, -1.0*delta.y)).r * weights[1] * weights[1];
-				edge += tex2D(_MainTex, i.uv + float2(0.0, -1.0*delta.y)).r * weights[2] * weights[1];
-				edge += tex2D(_MainTex, i.uv + float2(1.0*delta.x, -1.0*delta.y)).r * weights[3] * weights[1];
-				edge += tex2D(_MainTex, i.uv + float2(2.0*delta.x, -1.0*delta.y)).r * weights[4] * weights[1];
+                edge += tex2D(_MainTex, i.uv + float2(-2.0 * delta.x, -2.0 * delta.y)).r * weights[0] * weights[0];
+                edge += tex2D(_MainTex, i.uv + float2(-1.0 * delta.x, -2.0 * delta.y)).r * weights[1] * weights[0];
+                edge += tex2D(_MainTex, i.uv + float2(0.0, -2.0 * delta.y)).r * weights[2] * weights[0];
+                edge += tex2D(_MainTex, i.uv + float2(1.0 * delta.x, -2.0 * delta.y)).r * weights[3] * weights[0];
+                edge += tex2D(_MainTex, i.uv + float2(2.0 * delta.x, -2.0 * delta.y)).r * weights[4] * weights[0];
 
-				edge += tex2D(_MainTex, i.uv + float2(-2.0*delta.x, 0.0)).r * weights[0] * weights[2];
-				edge += tex2D(_MainTex, i.uv + float2(-1.0*delta.x, 0.0)).r * weights[1] * weights[2];
-				edge += tex2D(_MainTex, i.uv + float2(0.0, 0.0)).r * weights[2] * weights[2];
-				edge += tex2D(_MainTex, i.uv + float2(1.0*delta.x, 0.0)).r * weights[3] * weights[2];
-				edge += tex2D(_MainTex, i.uv + float2(2.0*delta.x, 0.0)).r * weights[4] * weights[2];
+                edge += tex2D(_MainTex, i.uv + float2(-2.0 * delta.x, -1.0 * delta.y)).r * weights[0] * weights[1];
+                edge += tex2D(_MainTex, i.uv + float2(-1.0 * delta.x, -1.0 * delta.y)).r * weights[1] * weights[1];
+                edge += tex2D(_MainTex, i.uv + float2(0.0, -1.0 * delta.y)).r * weights[2] * weights[1];
+                edge += tex2D(_MainTex, i.uv + float2(1.0 * delta.x, -1.0 * delta.y)).r * weights[3] * weights[1];
+                edge += tex2D(_MainTex, i.uv + float2(2.0 * delta.x, -1.0 * delta.y)).r * weights[4] * weights[1];
 
-				edge += tex2D(_MainTex, i.uv + float2(-2.0*delta.x, 1.0*delta.y)).r * weights[0] * weights[3];
-				edge += tex2D(_MainTex, i.uv + float2(-1.0*delta.x, 1.0*delta.y)).r * weights[1] * weights[3];
-				edge += tex2D(_MainTex, i.uv + float2(0.0, 1.0*delta.y)).r * weights[2] * weights[3];
-				edge += tex2D(_MainTex, i.uv + float2(1.0*delta.x, 1.0*delta.y)).r * weights[3] * weights[3];
-				edge += tex2D(_MainTex, i.uv + float2(2.0*delta.x, 1.0*delta.y)).r * weights[4] * weights[3];
+                edge += tex2D(_MainTex, i.uv + float2(-2.0 * delta.x, 0.0)).r * weights[0] * weights[2];
+                edge += tex2D(_MainTex, i.uv + float2(-1.0 * delta.x, 0.0)).r * weights[1] * weights[2];
+                edge += tex2D(_MainTex, i.uv + float2(0.0, 0.0)).r * weights[2] * weights[2];
+                edge += tex2D(_MainTex, i.uv + float2(1.0 * delta.x, 0.0)).r * weights[3] * weights[2];
+                edge += tex2D(_MainTex, i.uv + float2(2.0 * delta.x, 0.0)).r * weights[4] * weights[2];
 
-				edge += tex2D(_MainTex, i.uv + float2(-2.0*delta.x, 2.0*delta.y)).r * weights[0] * weights[4];
-				edge += tex2D(_MainTex, i.uv + float2(-1.0*delta.x, 2.0*delta.y)).r * weights[1] * weights[4];
-				edge += tex2D(_MainTex, i.uv + float2(0.0, 2.0*delta.y)).r * weights[2] * weights[4];
-				edge += tex2D(_MainTex, i.uv + float2(1.0*delta.x, 2.0*delta.y)).r * weights[3] * weights[4];
-				edge += tex2D(_MainTex, i.uv + float2(2.0*delta.x, 2.0*delta.y)).r * weights[4] * weights[4];
-                
+                edge += tex2D(_MainTex, i.uv + float2(-2.0 * delta.x, 1.0 * delta.y)).r * weights[0] * weights[3];
+                edge += tex2D(_MainTex, i.uv + float2(-1.0 * delta.x, 1.0 * delta.y)).r * weights[1] * weights[3];
+                edge += tex2D(_MainTex, i.uv + float2(0.0, 1.0 * delta.y)).r * weights[2] * weights[3];
+                edge += tex2D(_MainTex, i.uv + float2(1.0 * delta.x, 1.0 * delta.y)).r * weights[3] * weights[3];
+                edge += tex2D(_MainTex, i.uv + float2(2.0 * delta.x, 1.0 * delta.y)).r * weights[4] * weights[3];
+
+                edge += tex2D(_MainTex, i.uv + float2(-2.0 * delta.x, 2.0 * delta.y)).r * weights[0] * weights[4];
+                edge += tex2D(_MainTex, i.uv + float2(-1.0 * delta.x, 2.0 * delta.y)).r * weights[1] * weights[4];
+                edge += tex2D(_MainTex, i.uv + float2(0.0, 2.0 * delta.y)).r * weights[2] * weights[4];
+                edge += tex2D(_MainTex, i.uv + float2(1.0 * delta.x, 2.0 * delta.y)).r * weights[3] * weights[4];
+                edge += tex2D(_MainTex, i.uv + float2(2.0 * delta.x, 2.0 * delta.y)).r * weights[4] * weights[4];
+
 
                 fixed4 originalColor = tex2D(_SourceTex, i.uv); // Sample the original scene color
                 return lerp(originalColor, _OutlineColor, edge);

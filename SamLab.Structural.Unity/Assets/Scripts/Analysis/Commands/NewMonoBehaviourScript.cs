@@ -1,19 +1,17 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Analysis.Commands
+namespace Analysis.Commands
 {
     public class NewMonoBehaviourScript : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        private void Start()
         {
-        
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-        
         }
     }
 }

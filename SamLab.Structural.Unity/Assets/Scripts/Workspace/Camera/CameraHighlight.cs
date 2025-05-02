@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Workspace.Camera
+namespace Workspace.Camera
 {
     [ExecuteInEditMode] // Makes the script run in the editor too
     [RequireComponent(typeof(UnityEngine.Camera))] // Ensures the script is attached to a Camera
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Workspace.Camera
             }
 
             // 1. Create a temporary RenderTexture
-            RenderTexture tempRT = RenderTexture.GetTemporary(source.width, source.height, 0, source.format);
+            var tempRT = RenderTexture.GetTemporary(source.width, source.height, 0, source.format);
 
             // 2. Pass 1: Edge Detection (render to tempRT)
             Graphics.Blit(source, tempRT, outlineMaterial, 0);

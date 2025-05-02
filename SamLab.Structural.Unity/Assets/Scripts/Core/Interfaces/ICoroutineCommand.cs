@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Assets.Scripts.Core.Interfaces
+namespace Core.Interfaces
 {
     public interface ICoroutineCommand : ICommand
     {

@@ -1,17 +1,16 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Workspace.UI
+namespace Workspace.UI
 {
     public class DragSizeHandler : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        private void Start()
         {
-        
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
         }
 
@@ -21,6 +20,7 @@ namespace Assets.Scripts.Workspace.UI
             //Switch material to nr 2
             GetComponent<Renderer>().material = Resources.Load<Material>("Materials/Red");
         }
+
         private void OnMouseDown()
         {
             Debug.Log("Mouse is down.");
@@ -28,10 +28,7 @@ namespace Assets.Scripts.Workspace.UI
 
         private void OnMouseOver()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Debug.Log("Mouse is over GameObject.");
-            }
+            if (Input.GetMouseButtonDown(0)) Debug.Log("Mouse is over GameObject.");
         }
 
         private void OnMouseExit()
@@ -41,11 +38,9 @@ namespace Assets.Scripts.Workspace.UI
 
         private void OnMouseDrag()
         {
-            Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
-            Vector3 objPosition = UnityEngine.Camera.main.ScreenToWorldPoint(mousePosition);
+            var mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10);
+            var objPosition = UnityEngine.Camera.main.ScreenToWorldPoint(mousePosition);
             transform.position = objPosition;
         }
-
-
     }
 }

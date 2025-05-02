@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Base.Loads;
-using Assets.Scripts.Structure.Managers;
-using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
+using Structure.Base;
+using Structure.Base.Loads;
+using Structure.Managers;
 using UnityEngine;
+using Workspace.Geometry.ReferenceGeometry;
 
-namespace Assets.Scripts.Workspace.Interaction
+namespace Workspace.Interaction
 {
     public class SelectionInteraction : MonoBehaviour
     {

@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.Workspace.Managers
+namespace Workspace.Managers
 {
-    public class InteractionHandler: MonoBehaviour
+    public class InteractionHandler : MonoBehaviour
     {
         public UnityEvent AwaitNodeSelection;
         public bool IsOccupied { get; private set; } = false;

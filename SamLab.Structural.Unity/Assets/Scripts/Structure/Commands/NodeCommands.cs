@@ -1,10 +1,10 @@
-﻿using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Managers;
-using Assets.Scripts.Workspace.Managers;
+﻿using Core.Interfaces;
+using Structure.Base;
+using Structure.Managers;
 using UnityEngine;
+using Workspace.Managers;
 
-namespace Assets.Scripts.Structure.Commands
+namespace Structure.Commands
 {
     public class CreateNode : ICommand
     {

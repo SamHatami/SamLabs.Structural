@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Workspace.UI
+namespace Workspace.UI
 {
     public class RotateTranslateGizmo : MonoBehaviour
     {

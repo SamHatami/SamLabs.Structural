@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Assets.Scripts.Structure.Factories;
+using Structure.Factories;
 using UnityEngine;
 
-namespace Assets.Scripts.Structure.Managers
+namespace Structure.Managers
 {
     public class TrussManager : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Structure.Managers
 
         private void AddStructure(TrussStructure structure)
         {
-            if(Structures.Contains(structure))
+            if (Structures.Contains(structure))
                 return;
             Structures.Add(structure);
         }
@@ -41,8 +41,8 @@ namespace Assets.Scripts.Structure.Managers
         // Update is called once per frame
         private void Update()
         {
+            //move this to commandmanager
             if (Input.GetKeyUp(KeyCode.A)) ActiveStructure.CreateMember(new Vector3(0, 0, 0), new Vector3(1, 0, 0));
-
         }
 
         public void SetActiveStructure(TrussStructure structure)
@@ -52,7 +52,6 @@ namespace Assets.Scripts.Structure.Managers
 
         public void AddLoad()
         {
-
         }
     }
 }

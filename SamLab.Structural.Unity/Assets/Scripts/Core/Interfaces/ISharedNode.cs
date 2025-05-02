@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Structure.Managers;
+﻿using Structure.Managers;
 
-namespace Assets.Scripts.Core.Interfaces
+namespace Core.Interfaces
 {
     public interface ISharedNode
     {
@@ -13,6 +13,5 @@ namespace Assets.Scripts.Core.Interfaces
         TrussStructure TrussStructure1 { get; set; }
         TrussStructure TrussStructure2 { get; set; }
         bool IsConnected { get; set; }
-
     }
 }

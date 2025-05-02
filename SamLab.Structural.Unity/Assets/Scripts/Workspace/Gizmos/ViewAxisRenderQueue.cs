@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class ViewAxisRenderQueue : MonoBehaviour
+namespace Workspace.Gizmos
 {
-    [SerializeField] private int renderQueue = 4000;
-
-    private void Awake()
+    public class ViewAxisRenderQueue : MonoBehaviour
     {
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
+        [SerializeField] private int renderQueue = 4000;
+
+        private void Awake()
         {
-            Material materialInstance = new Material(renderer.material);
+            var renderer = GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                var materialInstance = new Material(renderer.material);
 
-            materialInstance.renderQueue = renderQueue;
+                materialInstance.renderQueue = renderQueue;
 
-            renderer.material = materialInstance;
+                renderer.material = materialInstance;
+            }
         }
     }
 }

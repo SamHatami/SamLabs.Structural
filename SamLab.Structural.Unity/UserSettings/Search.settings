@@ -9,9 +9,9 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"picker_window_position_offset.075BCD15" = "190;97;320;550"
+	"picker_window_position_offset.075BCD15" = "190;97;659;550"
 	"picker_visibility_flags.075BCD15" = "264"
-	"picker_item_size.075BCD15" = "96"
+	"picker_item_size.075BCD15" = "32"
 	"picker_inspector.075BCD15" = "0"
 }
 providers = {
@@ -69,6 +69,21 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"type: trussnode"
+	"type: truss"
+	"type: inputc"
+	"type: InputController"
+	"type: InputCo"
+	"type: I"
+	"type: inputcon"
+	"type: trussn"
+	"type: inputcoordinate"
+	"type: inputcoord"
+	"type: on"
+	"type: inputcontro"
+	"type: input"
+	"type: inputco"
+	"type: inputcoo"
 ]
 searchItemFavorites = [
 ]

@@ -1,14 +1,12 @@
-﻿using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Managers;
-using SamLab.Structural.Core.Elements;
+﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Structure.Base.Loads;
-using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
-using Assets.Scripts.Workspace.Managers;
+using Core.Interfaces;
+using SamLab.Structural.Core.Elements;
+using Structure.Base.Loads;
+using Structure.Managers;
 using UnityEngine;
-using MathNet.Numerics;
 
-namespace Assets.Scripts.Structure.Base
+namespace Structure.Base
 {
     public class TrussNode : MonoBehaviour, IStructuralNode, ISelectable
     {
@@ -18,6 +16,8 @@ namespace Assets.Scripts.Structure.Base
         [SerializeField] private bool _isMovable;
         [SerializeField] private bool _isSelected;
         [SerializeField] private PointLoad _load;
+        [SerializeField] private Transform _transform;
+        [SerializeField] private NodeData _nodeData;
 
 
         public bool IsShared
@@ -43,6 +43,14 @@ namespace Assets.Scripts.Structure.Base
         }
 
         public NodeData NodeData { get; set; }
+
+        private void Awake()
+        {
+            _transform = transform;
+            if(_nodeData == null)
+                _nodeData = new NodeData();
+        }
+
 
         public List<TrussStructure> ParentStructures
         {
@@ -81,24 +89,25 @@ namespace Assets.Scripts.Structure.Base
             if (!ConnectedElements.Contains(element))
                 ConnectedElements.Add(element);
         }
+
         public void OnMouseDrag()
         {
             if (!IsMovable)
                 return;
 
             // Get the current camera
-            Camera camera = Camera.main;
+            var camera = Camera.main;
 
             // Create a ray from the camera through the mouse position
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            var ray = camera.ScreenPointToRay(Input.mousePosition);
 
             // Define the plane for intersection
             Plane dragPlane;
             if (ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane != null)
             {
                 // Use the active workspace plane
-                Vector3 planeNormal = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Normal;
-                Vector3 planePoint = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Origo;
+                var planeNormal = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Normal;
+                var planePoint = ParentStructures[0].WorkspaceSnapHandler.ActiveWorkPlane.Origo;
                 dragPlane = new Plane(planeNormal, planePoint);
             }
             else
@@ -108,19 +117,25 @@ namespace Assets.Scripts.Structure.Base
             }
 
             // Check if the ray intersects the plane
-            if (dragPlane.Raycast(ray, out float distance))
+            if (dragPlane.Raycast(ray, out var distance))
             {
                 // Get the intersection point
-                Vector3 hitPoint = ray.GetPoint(distance);
+                var hitPoint = ray.GetPoint(distance);
 
                 // Process through snap handler for grid snapping, etc.
-                Vector3 finalPosition = ParentStructures[0].WorkspaceSnapHandler
+                var finalPosition = ParentStructures[0].WorkspaceSnapHandler
                     .ProcessNodeDragPosition(this, hitPoint, ParentStructures[0]);
 
                 // Apply the position
                 transform.position = finalPosition;
 
+                UpdateData();
             }
+        }
+
+        private void UpdateData()
+        {
+            _nodeData.Position = _transform.position;
         }
 
         public void OnMouseOver()

@@ -1,9 +1,8 @@
-using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Managers;
-using UnityEditor;
+using Core.Interfaces;
+using Structure.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Structure.Base
+namespace Structure.Base
 {
     public class TrussElement : MonoBehaviour, IStructuralElement
     {
@@ -14,7 +13,6 @@ namespace Assets.Scripts.Structure.Base
         //[SerializeField] private bool RenderLine = true;
 
         [Tooltip("Base width of the line in screen pixels")]
-
         private TrussStructure _parentStructure;
 
         private Vector3 oldEndNodePosition;
@@ -32,29 +30,29 @@ namespace Assets.Scripts.Structure.Base
         }
 
 
-        void Start()
+        private void Start()
         {
             UpdateScaleAndRotation();
         }
+
         // Update is called once per frame
         private void Update()
         {
-            if(StartNode == null || EndNode == null)
+            if (StartNode == null || EndNode == null)
                 return;
 
-            if(oldEndNodePosition == EndNode.transform.position && oldStartNodePosition == StartNode.transform.position)
+            if (oldEndNodePosition == EndNode.transform.position &&
+                oldStartNodePosition == StartNode.transform.position)
                 return;
 
             oldEndNodePosition = EndNode.transform.position;
             oldStartNodePosition = StartNode.transform.position;
 
             UpdateScaleAndRotation();
-
         }
 
         private void UpdateScaleAndRotation()
         {
-
             length = Vector3.Distance(StartNode.transform.position, EndNode.transform.position);
             transform.position = StartNode.transform.position;
             transform.LookAt(EndNode.transform);
@@ -82,6 +80,5 @@ namespace Assets.Scripts.Structure.Base
             if (EndNode != null)
                 EndNode.AddConnectedElement(this);
         }
-        
     }
 }

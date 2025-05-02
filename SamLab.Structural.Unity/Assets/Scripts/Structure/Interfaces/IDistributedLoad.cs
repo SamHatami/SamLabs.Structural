@@ -1,7 +1,6 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Structure.Interfaces
+namespace Structure.Interfaces
 {
     public interface IDistributedLoad : ILoad
     {

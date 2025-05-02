@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Workspace.Geometry.Interfaces;
-using Assets.Scripts.Workspace.Managers;
-using UnityEngine;
+﻿using UnityEngine;
+using Workspace.Geometry.Interfaces;
+using Workspace.Managers;
 
-namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
+namespace Workspace.Geometry.ReferenceGeometry
 {
     public class WorkPlane : MonoBehaviour, IReferenceGeometry, IPlane
     {

@@ -1,34 +1,36 @@
-using Assets.Scripts.Core.Interfaces;
+using Core.Interfaces;
 using UnityEngine;
 
-public class WorkPoint : MonoBehaviour, ISelectable
+namespace Workspace.Geometry.ReferenceGeometry
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class WorkPoint : MonoBehaviour, ISelectable
     {
-        
-    }
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Start()
+        {
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        // Update is called once per frame
+        private void Update()
+        {
+        }
 
-    public bool IsMovable { get; set; } = false;
-    public void OnMouseDown()
-    {
-    }
+        public bool IsMovable { get; set; } = false;
 
-    public void OnMouseUp()
-    {
-    }
+        public void OnMouseDown()
+        {
+        }
 
-    public void OnMouseDrag() 
-    {
-    }
+        public void OnMouseUp()
+        {
+        }
 
-    public void OnMouseOver()
-    {
+        public void OnMouseDrag()
+        {
+        }
+
+        public void OnMouseOver()
+        {
+        }
     }
 }

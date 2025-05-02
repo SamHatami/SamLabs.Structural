@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Assets.Scripts.Workspace.Factories;
-using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
-using Assets.Scripts.Workspace.UI;
 using UnityEngine;
+using Workspace.Factories;
+using Workspace.Geometry.ReferenceGeometry;
+using Workspace.UI;
 
-namespace Assets.Scripts.Workspace.Managers
+namespace Workspace.Managers
 {
     public class WorkspaceManager : MonoBehaviour
     {
@@ -14,19 +14,20 @@ namespace Assets.Scripts.Workspace.Managers
         [SerializeField] private List<RotateTranslateGizmo> Gizmos;
         [SerializeField] private List<WorkAxis> Workaxes;
 
-        [Header("Base Planes")] 
-        [SerializeField] public GameObject XYPlane;
+        [Header("Base Planes")] [SerializeField]
+        public GameObject XYPlane;
+
         [SerializeField] public GameObject YZPlane;
         [SerializeField] public GameObject XZPlane;
 
-        [Header("Factories and handlers")] 
-        [SerializeField] private WorkSpaceFactory _workSpaceFactory;
+        [Header("Factories and handlers")] [SerializeField]
+        private WorkSpaceFactory _workSpaceFactory;
 
         [SerializeField] private WorkspaceSnapHandler _snapHandler;
 
         private WorkspaceSettings _settings;
 
-        void Awake()
+        private void Awake()
         {
             if (XYPlane != null) XYPlane.GetComponent<BasePlane>().Initialize();
             if (YZPlane != null) YZPlane.GetComponent<BasePlane>().Initialize();
@@ -36,8 +37,6 @@ namespace Assets.Scripts.Workspace.Managers
         private void Start()
         {
             _settings = new WorkspaceSettings();
-     
-
         }
 
         public void CreateNewWorkPlane() //Pass enum to choose which creationform

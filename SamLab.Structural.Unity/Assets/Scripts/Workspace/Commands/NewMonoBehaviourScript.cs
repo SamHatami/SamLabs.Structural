@@ -1,6 +1,6 @@
-using Assets.Scripts.Core.Interfaces;
+using Core.Interfaces;
 
-namespace Assets.Scripts.Workspace.Commands
+namespace Workspace.Commands
 {
     public class SomeNewCommand : ICommand
     {

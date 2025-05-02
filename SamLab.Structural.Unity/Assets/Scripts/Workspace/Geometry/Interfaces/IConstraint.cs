@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Workspace.Geometry.Interfaces
+﻿namespace Workspace.Geometry.Interfaces
 {
     public interface IConstraint
     {

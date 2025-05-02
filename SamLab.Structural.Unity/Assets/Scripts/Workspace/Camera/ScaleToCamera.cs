@@ -1,51 +1,43 @@
-using UnityEditor.Toolbars;
 using UnityEngine;
 
-public class ScaleToCamera : MonoBehaviour
+namespace Workspace.Camera
 {
-    [SerializeField] private float _worldScale = 1;
-    [SerializeField] private bool LockXScale= false;
-    [SerializeField] private bool LockYScale= false;
-    [SerializeField] private bool LockZScale= false;
-
-    private float oldCameraSize = 0;
-
-    void Awake()
+    public class ScaleToCamera : MonoBehaviour
     {
-        SetScale();
-    }
+        [SerializeField] private float _worldScale = 1;
+        [SerializeField] private bool LockXScale = false;
+        [SerializeField] private bool LockYScale = false;
+        [SerializeField] private bool LockZScale = false;
 
-    void OnEnable()
-    {
-        SetScale();
-    }
+        private float oldCameraSize = 0;
 
-    private void SetScale()
-    {
-
-        var screenSpaceScale = _worldScale * UnityEngine.Camera.main.orthographicSize;
-
-        transform.localScale = new Vector3(
-            LockXScale ? transform.localScale.x : screenSpaceScale,
-            LockYScale ? transform.localScale.y : screenSpaceScale,
-            LockZScale ? transform.localScale.z : screenSpaceScale);
-
-    }
-
-    void Update()
-    {
-        if(oldCameraSize == Camera.main.orthographicSize)
+        private void Awake()
         {
-            return;
+            SetScale();
         }
 
-        oldCameraSize = UnityEngine.Camera.main.orthographicSize;
+        private void OnEnable()
+        {
+            SetScale();
+        }
 
-        SetScale();
+        private void SetScale()
+        {
+            var screenSpaceScale = _worldScale * UnityEngine.Camera.main.orthographicSize;
 
+            transform.localScale = new Vector3(
+                LockXScale ? transform.localScale.x : screenSpaceScale,
+                LockYScale ? transform.localScale.y : screenSpaceScale,
+                LockZScale ? transform.localScale.z : screenSpaceScale);
+        }
+
+        private void Update()
+        {
+            if (oldCameraSize == UnityEngine.Camera.main.orthographicSize) return;
+
+            oldCameraSize = UnityEngine.Camera.main.orthographicSize;
+
+            SetScale();
+        }
     }
-
-
-    
-
 }

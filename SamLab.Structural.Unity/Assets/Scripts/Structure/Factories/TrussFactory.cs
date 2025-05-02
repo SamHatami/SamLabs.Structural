@@ -1,15 +1,17 @@
-﻿using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Base.Loads;
-using Assets.Scripts.Structure.Managers;
+﻿using Structure.Base;
+using Structure.Base.Constraints;
+using Structure.Base.Loads;
+using Structure.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Structure.Factories
+namespace Structure.Factories
 {
     public class TrussFactory : MonoBehaviour
     {
         [SerializeField] private GameObject _nodePrefab;
         [SerializeField] private GameObject _memberPrefab;
-        [SerializeField] private GameObject _supportPrefab;
+        [SerializeField] private GameObject _pinnnedSupportPrefab;
+        [SerializeField] private GameObject _rollingSupportPrefab;
         [SerializeField] private GameObject _pointLoadPrefab;
         [SerializeField] private GameObject _trussStructure;
 
@@ -62,6 +64,23 @@ namespace Assets.Scripts.Structure.Factories
             load.Force = force;
 
             return load;
+        }
+
+        public PinnedSupport CreatePinned(TrussNode node)
+        {
+            var pinnedObj = Instantiate(_pinnnedSupportPrefab, node.transform.position, Quaternion.identity);
+            pinnedObj.transform.SetParent(node.ParentStructures[0].transform);
+            var pinned = pinnedObj.GetComponent<PinnedSupport>();
+            
+            return pinned;
+        }
+
+        public RollingSupport CreateRollingSupport(TrussNode node)
+        {
+            var rollingObj = Instantiate(_pointLoadPrefab, node.transform.position, Quaternion.identity);
+            rollingObj.transform.SetParent(node.ParentStructures[0].transform);
+            var rolling = rollingObj.GetComponent<RollingSupport>();
+            return rolling;
         }
     }
 }

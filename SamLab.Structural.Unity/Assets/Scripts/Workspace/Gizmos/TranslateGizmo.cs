@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Workspace.Gizmos
+namespace Workspace.Gizmos
 {
     public class TranslateGizmo : MonoBehaviour
     {
         [SerializeField] private Transform _attachedTransform;
 
 
-        void Awake()
+        private void Awake()
         {
         }
 
-        void Update()
+        private void Update()
         {
-
         }
 
 

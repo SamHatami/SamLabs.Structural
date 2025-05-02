@@ -1,9 +1,8 @@
-﻿namespace Assets.Scripts.Core.Interfaces
+﻿namespace Core.Interfaces
 {
-    public  interface ISettings
+    public interface ISettings
     {
         void Load();
         void Save();
-
     }
 }

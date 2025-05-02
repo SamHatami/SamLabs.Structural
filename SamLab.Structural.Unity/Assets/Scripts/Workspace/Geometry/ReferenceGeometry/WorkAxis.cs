@@ -1,9 +1,7 @@
-﻿using Assets.Scripts.Workspace.Geometry.Interfaces;
-using Codice.CM.Common.Tree;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
+using Workspace.Geometry.Interfaces;
 
-namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
+namespace Workspace.Geometry.ReferenceGeometry
 {
     public class WorkAxis : MonoBehaviour, IReferenceGeometry
     {

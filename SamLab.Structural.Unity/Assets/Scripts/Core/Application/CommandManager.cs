@@ -1,13 +1,13 @@
-﻿using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Commands;
-using Assets.Scripts.Structure.Managers;
-using System.Collections.Generic;
-using Assets.Scripts.Structure.Factories;
-using Assets.Scripts.Workspace.Interaction;
-using Assets.Scripts.Workspace.Managers;
+﻿using System.Collections.Generic;
+using Core.Interfaces;
+using Structure.Commands;
+using Structure.Factories;
+using Structure.Managers;
 using UnityEngine;
+using Workspace.Interaction;
+using Workspace.Managers;
 
-namespace Assets.Scripts.Core.Application
+namespace Core.Application
 {
     public class CommandManager : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Core.Application
         public SelectionInteraction _SelectionInteraction;
 
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null)
                 Instance = this;
@@ -43,19 +43,29 @@ namespace Assets.Scripts.Core.Application
         private void RegisterCommands()
         {
             //if we have a lot of commands, we can use reflection to automatically register them?
-       
-            _commands.Add(new CreateNode(_trussManager,_interactionHandler));
+
+            _commands.Add(new CreateNode(_trussManager, _interactionHandler));
             _commands.Add(new ElementCommands.CreateElement());
             _commands.Add(new AddPointLoad(_trussManager, _trussFactory, _SelectionInteraction));
         }
 
         private void Update()
         {
-            if(Input.GetKeyUp(KeyCode.S))
+            if (Input.GetKeyUp(KeyCode.S))
             {
                 var addLoad = new AddPointLoad(_trussManager, _trussFactory, _SelectionInteraction);
                 ExecuteCommand(addLoad);
+                _commands.Add(addLoad);
             }
+
+            if (Input.GetKeyUp(KeyCode.Q))
+            {
+                var pinned = new AddPinnedSupport(_trussManager,_trussFactory, _SelectionInteraction);
+                ExecuteCommand(pinned);
+                _commands.Add(pinned);
+
+            }
+            
 
             //Handle keys inputs for commands here?
             //Dictionary that holds input keys and commands?
@@ -63,20 +73,14 @@ namespace Assets.Scripts.Core.Application
 
         public void CancelActiveCommand()
         {
-
         }
 
         public void ExecuteCommand(ICommand command)
         {
-
             if (command is ICoroutineCommand coroutineCommand)
-            {
                 StartCoroutine(coroutineCommand.ExecuteCoroutine());
-            }
             else
-            {
                 command.Execute();
-            }
 
             _commandHistory.Push(command);
         }

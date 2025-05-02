@@ -1,17 +1,21 @@
 using UnityEngine;
 
-public class LookAtCamera : MonoBehaviour
+namespace Workspace.Camera
 {
-    private Vector3 _oldCameraPosition;
-    void Awake()
+    public class LookAtCamera : MonoBehaviour
     {
-        transform.LookAt(Camera.main.transform);
-    }
-    void Update()
-    {
+        private Vector3 _oldCameraPosition;
 
-        transform.LookAt(Camera.main.transform);
-        transform.rotation = Camera.main.transform.rotation;
-        //transform.Rotate(Vector3.up,angle);
+        private void Awake()
+        {
+            transform.LookAt(UnityEngine.Camera.main.transform);
+        }
+
+        private void Update()
+        {
+            transform.LookAt(UnityEngine.Camera.main.transform);
+            transform.rotation = UnityEngine.Camera.main.transform.rotation;
+            //transform.Rotate(Vector3.up,angle);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Structure.Interfaces
+﻿namespace Structure.Interfaces
 {
     public interface ILoad
     {

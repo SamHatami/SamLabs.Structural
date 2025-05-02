@@ -1,12 +1,10 @@
-﻿using Assets.Scripts.Workspace.Geometry.Interfaces;
-using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
-using Assets.Scripts.Workspace.Managers;
-using UnityEngine;
+﻿using UnityEngine;
+using Workspace.Geometry.Interfaces;
+using Workspace.Geometry.ReferenceGeometry;
 
-namespace Assets.Scripts.Workspace.Factories
+namespace Workspace.Factories
 {
-
-    public  class WorkSpaceFactory:MonoBehaviour
+    public class WorkSpaceFactory : MonoBehaviour
     {
         [SerializeField] private GameObject _workPlanePrefab;
         [SerializeField] private GameObject _workAxisPrefab;
@@ -15,9 +13,10 @@ namespace Assets.Scripts.Workspace.Factories
         [SerializeField] private GameObject _workPlaneCollection;
         [SerializeField] private GameObject _workAxisCollection;
         [SerializeField] private GameObject _workPointCollection;
+
         public WorkPlane CreateWorkPlaneFromOffset(IPlane sourcePlane, float offset, bool activate)
         {
-            Vector3 finalPosition = sourcePlane.Origo + sourcePlane.Normal*offset;
+            var finalPosition = sourcePlane.Origo + sourcePlane.Normal * offset;
 
 
             var workPlaneObj = Instantiate(_workPlanePrefab, finalPosition, sourcePlane.Rotation);
@@ -25,7 +24,6 @@ namespace Assets.Scripts.Workspace.Factories
             workPlaneObj.transform.SetParent(_workPlaneCollection.transform);
 
             return workPlaneObj.GetComponent<WorkPlane>();
-
         }
     }
 }

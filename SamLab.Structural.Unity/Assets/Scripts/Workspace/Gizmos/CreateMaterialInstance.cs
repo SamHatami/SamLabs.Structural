@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class CreateMaterialInstance : MonoBehaviour
+namespace Workspace.Gizmos
 {
-    [SerializeField] private Material baseMaterial;
-    [SerializeField] private Color _color;
-
-    void Start()
+    public class CreateMaterialInstance : MonoBehaviour
     {
-        Material instanceMaterial = new Material(baseMaterial);
+        [SerializeField] private Material baseMaterial;
+        [SerializeField] private Color _color;
 
-        instanceMaterial.color = _color;
+        private void Start()
+        {
+            var instanceMaterial = new Material(baseMaterial);
 
-        GetComponent<Renderer>().material = instanceMaterial;
+            instanceMaterial.color = _color;
+
+            GetComponent<Renderer>().material = instanceMaterial;
+        }
     }
 }

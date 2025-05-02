@@ -1,10 +1,9 @@
-﻿using Assets.Scripts.Core.Interfaces;
+﻿using Core.Interfaces;
 
-namespace Assets.Scripts.Workspace
+namespace Workspace
 {
     public class WorkspaceSettings : ISettings
     {
-
         public void Load()
         {
         }
@@ -13,6 +12,4 @@ namespace Assets.Scripts.Workspace
         {
         }
     }
-
-
 }

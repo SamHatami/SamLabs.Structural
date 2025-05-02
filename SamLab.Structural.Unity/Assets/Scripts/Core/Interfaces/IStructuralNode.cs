@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Managers;
 using SamLab.Structural.Core.Elements;
+using Structure.Base;
+using Structure.Managers;
 
-namespace Assets.Scripts.Core.Interfaces
+namespace Core.Interfaces
 {
     public interface IStructuralNode
     {

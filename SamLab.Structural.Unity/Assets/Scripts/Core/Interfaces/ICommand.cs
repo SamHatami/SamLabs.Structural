@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Core.Interfaces
+﻿namespace Core.Interfaces
 {
     public interface ICommand
     {

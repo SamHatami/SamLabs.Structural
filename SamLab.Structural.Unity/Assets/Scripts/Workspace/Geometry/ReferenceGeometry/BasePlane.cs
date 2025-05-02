@@ -1,8 +1,7 @@
-﻿using System;
-using Assets.Scripts.Workspace.Geometry.Interfaces;
-using UnityEngine;
+﻿using UnityEngine;
+using Workspace.Geometry.Interfaces;
 
-namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
+namespace Workspace.Geometry.ReferenceGeometry
 {
     public class BasePlane : MonoBehaviour, IReferenceGeometry, IPlane
     {
@@ -59,22 +58,17 @@ namespace Assets.Scripts.Workspace.Geometry.ReferenceGeometry
             }
         }
 
-        void Awake()
+        private void Awake()
         {
-
-
         }
 
 
         private void Start()
         {
-
-
         }
 
-        void Update()
+        private void Update()
         {
-            
         }
     }
 }

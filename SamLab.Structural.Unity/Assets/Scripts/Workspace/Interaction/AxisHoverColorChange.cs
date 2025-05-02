@@ -1,46 +1,46 @@
 using UnityEngine;
 
-public class AxisHoverColorChange : MonoBehaviour
+namespace Workspace.Interaction
 {
-    [Header("Hover Color Settings")]
-    public Color HoverColor = Color.white;
-    public Color BaseColor = Color.white;
-
-    private Collider axisCollider;
-    private Material material;
-
-    void Awake()
+    public class AxisHoverColorChange : MonoBehaviour
     {
-        //TODO: In the future read colors from workspace settings
-    }
-    
-    void Start()
-    {
-        material = GetComponent<Renderer>().material; 
-        axisCollider = GetComponent<Collider>();
-        material.color = BaseColor;
-        material.SetColor("_EmissionColor", HoverColor);
-    }
+        [Header("Hover Color Settings")] public Color HoverColor = Color.white;
+        public Color BaseColor = Color.white;
 
-    void Update()
-    {
+        private Collider axisCollider;
+        private Material material;
 
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        private void Awake()
+        {
+            //TODO: In the future read colors from workspace settings
+        }
 
-        if (Physics.Raycast(ray, out var hit) && hit.collider == axisCollider)
-            HoverColorOn();
-        else
-            HoverColorOff();
-        
-    }
+        private void Start()
+        {
+            material = GetComponent<Renderer>().material;
+            axisCollider = GetComponent<Collider>();
+            material.color = BaseColor;
+            material.SetColor("_EmissionColor", HoverColor);
+        }
 
-    private void HoverColorOff()
-    {
-        material.DisableKeyword("_EMISSION");
-    }
+        private void Update()
+        {
+            var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    private void HoverColorOn()
-    {
-        material.EnableKeyword("_EMISSION");
+            if (Physics.Raycast(ray, out var hit) && hit.collider == axisCollider)
+                HoverColorOn();
+            else
+                HoverColorOff();
+        }
+
+        private void HoverColorOff()
+        {
+            material.DisableKeyword("_EMISSION");
+        }
+
+        private void HoverColorOn()
+        {
+            material.EnableKeyword("_EMISSION");
+        }
     }
 }

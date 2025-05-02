@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Core.Interfaces;
-using Assets.Scripts.Structure.Base;
-using Assets.Scripts.Structure.Base.Constraints;
-using Assets.Scripts.Structure.Base.Loads;
-using Assets.Scripts.Structure.Factories;
-using Assets.Scripts.Structure.Interfaces;
-using Assets.Scripts.Workspace.Geometry.ReferenceGeometry;
-using Assets.Scripts.Workspace.Managers;
+using Core.Interfaces;
+using Structure.Base;
+using Structure.Base.Constraints;
+using Structure.Base.Loads;
+using Structure.Factories;
 using UnityEngine;
+using Workspace.Geometry.ReferenceGeometry;
+using Workspace.Managers;
 
-namespace Assets.Scripts.Structure.Managers
+namespace Structure.Managers
 {
     public class TrussStructure : MonoBehaviour
     {
         [SerializeField] public List<ISharedNode> SharedNodes;
         [SerializeField] public List<TrussNode> Nodes;
         [SerializeField] public List<TrussElement> Members;
-        [SerializeField] public List<TrussConstraint> Supports;
+        [SerializeField] public List<IConstraint> Supports;
         [SerializeField] public List<PointLoad> Loads;
         [SerializeField] public float NodeSnapTolerance = 0.1f;
         [SerializeField] public WorkPlane ReferenceWorkPlane;
@@ -32,7 +31,7 @@ namespace Assets.Scripts.Structure.Managers
         {
             Nodes ??= new List<TrussNode>();
             Members ??= new List<TrussElement>();
-            Supports ??= new List<TrussConstraint>();
+            Supports ??= new List<IConstraint>();
 
             _trussManager = manager;
             _trussFactory = trussFactory;
@@ -61,7 +60,6 @@ namespace Assets.Scripts.Structure.Managers
             AddNode(endNode);
             CreateMember(startNode, endNode);
         }
-
         public void DeleteNode(TrussNode node)
         {
             RemoveNode(node);
@@ -97,6 +95,12 @@ namespace Assets.Scripts.Structure.Managers
             Nodes.Remove(node);
         }
 
+        public void AddSupport(IConstraint support)
+        {
+            if(Supports.Contains(support)) return;
+            Supports.Add(support);
+        }
+
         private void AddMember(TrussElement element)
         {
             if (Members.Contains(element))
@@ -111,14 +115,7 @@ namespace Assets.Scripts.Structure.Managers
             Members.Remove(member);
         }
 
-        private void AddSupport(TrussConstraint support)
-        {
-            if (Supports.Contains(support))
-                return;
-            Supports.Add(support);
-        }
-
-        private void RemoveSupport(TrussConstraint support)
+        public void RemoveSupport(IConstraint support)
         {
             if (!Supports.Contains(support))
                 return;
@@ -138,6 +135,5 @@ namespace Assets.Scripts.Structure.Managers
                 return;
             Loads.Remove(load);
         }
-
     }
 }

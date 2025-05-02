@@ -19,6 +19,7 @@ namespace Structure.Base
         [SerializeField] private Transform _transform;
         [SerializeField] private NodeData _nodeData;
 
+        public Action<TrussNode> OnPositionChanged;
 
         public bool IsShared
         {
@@ -136,6 +137,7 @@ namespace Structure.Base
         private void UpdateData()
         {
             _nodeData.Position = _transform.position;
+            OnPositionChanged?.Invoke(this);
         }
 
         public void OnMouseOver()

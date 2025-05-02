@@ -1,0 +1,19 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement name="InputCoordinates" focusable="true" style="flex-grow: 1; width: 288px;">
+        <engine:FloatField label="X" placeholder-text="0" name="PositionXField">
+            <Bindings>
+                <engine:DataBinding property="value" data-source-path="PositionX" binding-mode="TwoWay" />
+            </Bindings>
+        </engine:FloatField>
+        <engine:FloatField label="Y" placeholder-text="0" name="PositionYField">
+            <Bindings>
+                <engine:DataBinding property="value" data-source-path="PositionY" binding-mode="TwoWay" />
+            </Bindings>
+        </engine:FloatField>
+        <engine:FloatField label="Z" placeholder-text="0" name="PositionZField">
+            <Bindings>
+                <engine:DataBinding property="value" data-source-path="PositionZ" binding-mode="TwoWay" />
+            </Bindings>
+        </engine:FloatField>
+    </engine:VisualElement>
+</engine:UXML>

@@ -23,13 +23,54 @@ namespace Workspace.Interaction
 
         private void Update()
         {
-            if (Input.GetMouseButtonUp(0) && Selecting) // 0 = left mouse button
+            if (!Input.GetButtonDown("Fire1")) return;
+
+            if (Selecting)
                 CheckHits();
+            else
+                CheckUnfiltered();
         }
 
         public void StartSelection()
         {
             Selecting = true;
+        }
+
+        private void CheckUnfiltered()
+        {
+            RaycastHit hit;
+            
+            var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (!Physics.Raycast(ray, out hit)) return;
+
+            if (hit.collider.gameObject.GetComponent<TrussNode>() != null)
+            {
+                NodeSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussNode>());
+                Selecting = false;
+            }
+
+
+            if (hit.collider.gameObject.GetComponent<TrussElement>() != null)
+                ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussElement>());
+
+            if (hit.collider.gameObject.GetComponent<PointLoad>() != null)
+                LoadSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<PointLoad>());
+
+            if (hit.collider.gameObject.GetComponent<TrussStructure>() != null)
+                StructureSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussStructure>());
+
+            if (hit.collider.gameObject.GetComponent<WorkPoint>() != null)
+            {
+                WorkPointSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPoint>());
+                Selecting = false;
+            }
+
+            if (hit.collider.gameObject.GetComponent<WorkPlane>() != null)
+            {
+                WorkPlaneSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPlane>());
+                Selecting = false;
+            }
         }
 
         private void CheckHits()
@@ -46,7 +87,6 @@ namespace Workspace.Interaction
                     {
                         NodeSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussNode>());
                         Selecting = false;
-                        gameObject.SetActive(false);
                     }
 
                     break;
@@ -67,7 +107,6 @@ namespace Workspace.Interaction
                     {
                         WorkPointSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPoint>());
                         Selecting = false;
-                        gameObject.SetActive(false);
                     }
 
                     break;
@@ -76,7 +115,6 @@ namespace Workspace.Interaction
                     {
                         WorkPlaneSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPlane>());
                         Selecting = false;
-                        gameObject.SetActive(false);
                     }
 
                     break;

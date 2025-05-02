@@ -65,25 +65,50 @@ providers = {
 		priority = 210
 		defaultAction = null
 	}
+	menu = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = false
+		priority = 85
+		defaultAction = null
+	}
 }
 objectSelectors = {
 }
 recentSearches = [
-	"type: trussnode"
-	"type: truss"
-	"type: inputc"
-	"type: InputController"
-	"type: InputCo"
-	"type: I"
-	"type: inputcon"
+	"type: trussnodevi"
+	"type: trus"
+	"type: trussviewmodel"
+	"type:"
+	"type: trussnodeviewmodel"
 	"type: trussn"
-	"type: inputcoordinate"
-	"type: inputcoord"
-	"type: on"
-	"type: inputcontro"
-	"type: input"
-	"type: inputco"
-	"type: inputcoo"
+	"type: trussnodevie"
+	"type: trussnode"
+	"type: trussnodeview"
+	"type: Trussnode"
+	"type: Triss"
+	"type: trussnod"
+	"type: workspacemanager"
+	"type: workspacemana"
+	"type: worksp"
+	"type: works"
+	"type: workspace"
+	"type: wrosk"
+	"type: workspaceman"
+	"type: Workspacemanag"
 ]
 searchItemFavorites = [
 ]

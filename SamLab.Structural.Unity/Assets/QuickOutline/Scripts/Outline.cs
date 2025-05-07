@@ -16,7 +16,7 @@ namespace Assets.QuickOutline.Scripts
     [DisallowMultipleComponent]
     public class Outline : MonoBehaviour
     {
-        private static HashSet<Mesh> registeredMeshes = new();
+        private static HashSet<Mesh> _registeredMeshes = new();
 
         public enum Mode
         {
@@ -33,7 +33,7 @@ namespace Assets.QuickOutline.Scripts
             set
             {
                 outlineMode = value;
-                needsUpdate = true;
+                _needsUpdate = true;
             }
         }
 
@@ -43,7 +43,7 @@ namespace Assets.QuickOutline.Scripts
             set
             {
                 outlineColor = value;
-                needsUpdate = true;
+                _needsUpdate = true;
             }
         }
 
@@ -53,7 +53,7 @@ namespace Assets.QuickOutline.Scripts
             set
             {
                 outlineWidth = value;
-                needsUpdate = true;
+                _needsUpdate = true;
             }
         }
 
@@ -80,41 +80,41 @@ namespace Assets.QuickOutline.Scripts
 
         [SerializeField] [HideInInspector] private List<ListVector3> bakeValues = new();
 
-        private Renderer[] renderers;
-        private Material outlineMaskMaterial;
-        private Material outlineFillMaterial;
+        private Renderer[] _renderers;
+        private Material _outlineMaskMaterial;
+        private Material _outlineFillMaterial;
 
-        private bool needsUpdate;
+        private bool _needsUpdate;
 
         private void Awake()
         {
             // Cache renderers
-            renderers = GetComponentsInChildren<Renderer>();
+            _renderers = GetComponentsInChildren<Renderer>();
 
             // Instantiate outline materials
-            outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
-            outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
+            _outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
+            _outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
 
-            outlineMaskMaterial.name = "OutlineMask (Instance)";
-            outlineFillMaterial.name = "OutlineFill (Instance)";
+            _outlineMaskMaterial.name = "OutlineMask (Instance)";
+            _outlineFillMaterial.name = "OutlineFill (Instance)";
 
             // Retrieve or generate smooth normals
             LoadSmoothNormals();
 
             // Apply material properties immediately
-            needsUpdate = true;
+            _needsUpdate = true;
         }
 
         private void OnEnable()
         {
-            foreach (var renderer in renderers)
+            foreach (var renderer in _renderers)
             {
                 // Append outline shaders
                 var materials = renderer.sharedMaterials.ToList();
 
                 materials.Clear();
-                materials.Add(outlineMaskMaterial);
-                materials.Add(outlineFillMaterial);
+                materials.Add(_outlineMaskMaterial);
+                materials.Add(_outlineFillMaterial);
 
                 renderer.materials = materials.ToArray();
             }
@@ -123,7 +123,7 @@ namespace Assets.QuickOutline.Scripts
         private void OnValidate()
         {
             // Update material properties
-            needsUpdate = true;
+            _needsUpdate = true;
 
             // Clear cache when baking is disabled or corrupted
             if ((!precomputeOutline && bakeKeys.Count != 0) || bakeKeys.Count != bakeValues.Count)
@@ -138,9 +138,9 @@ namespace Assets.QuickOutline.Scripts
 
         private void Update()
         {
-            if (needsUpdate)
+            if (_needsUpdate)
             {
-                needsUpdate = false;
+                _needsUpdate = false;
 
                 UpdateMaterialProperties();
             }
@@ -148,13 +148,13 @@ namespace Assets.QuickOutline.Scripts
 
         private void OnDisable()
         {
-            foreach (var renderer in renderers)
+            foreach (var renderer in _renderers)
             {
                 // Remove outline shaders
                 var materials = renderer.sharedMaterials.ToList();
 
-                materials.Remove(outlineMaskMaterial);
-                materials.Remove(outlineFillMaterial);
+                materials.Remove(_outlineMaskMaterial);
+                materials.Remove(_outlineFillMaterial);
 
                 renderer.materials = materials.ToArray();
             }
@@ -163,8 +163,8 @@ namespace Assets.QuickOutline.Scripts
         private void OnDestroy()
         {
             // Destroy material instances
-            Destroy(outlineMaskMaterial);
-            Destroy(outlineFillMaterial);
+            Destroy(_outlineMaskMaterial);
+            Destroy(_outlineFillMaterial);
         }
 
         private void Bake()
@@ -191,7 +191,7 @@ namespace Assets.QuickOutline.Scripts
             foreach (var meshFilter in GetComponentsInChildren<MeshFilter>())
             {
                 // Skip if smooth normals have already been adopted
-                if (!registeredMeshes.Add(meshFilter.sharedMesh)) continue;
+                if (!_registeredMeshes.Add(meshFilter.sharedMesh)) continue;
 
                 // Retrieve or generate smooth normals
                 var index = bakeKeys.IndexOf(meshFilter.sharedMesh);
@@ -210,7 +210,7 @@ namespace Assets.QuickOutline.Scripts
             foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
             {
                 // Skip if UV3 has already been reset
-                if (!registeredMeshes.Add(skinnedMeshRenderer.sharedMesh)) continue;
+                if (!_registeredMeshes.Add(skinnedMeshRenderer.sharedMesh)) continue;
 
                 // Clear UV3
                 skinnedMeshRenderer.sharedMesh.uv4 = new Vector2[skinnedMeshRenderer.sharedMesh.vertexCount];
@@ -265,38 +265,38 @@ namespace Assets.QuickOutline.Scripts
         private void UpdateMaterialProperties()
         {
             // Apply properties according to mode
-            outlineFillMaterial.SetColor("_OutlineColor", outlineColor);
+            _outlineFillMaterial.SetColor("_OutlineColor", outlineColor);
 
             switch (outlineMode)
             {
                 case Mode.OutlineAll:
-                    outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
-                    outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
-                    outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
+                    _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    _outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
                     break;
 
                 case Mode.OutlineVisible:
-                    outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
-                    outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
-                    outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
+                    _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
+                    _outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
                     break;
 
                 case Mode.OutlineHidden:
-                    outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
-                    outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
-                    outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
+                    _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
+                    _outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
                     break;
 
                 case Mode.OutlineAndSilhouette:
-                    outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
-                    outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
-                    outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
+                    _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
+                    _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Always);
+                    _outlineFillMaterial.SetFloat("_OutlineWidth", outlineWidth);
                     break;
 
                 case Mode.SilhouetteOnly:
-                    outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
-                    outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
-                    outlineFillMaterial.SetFloat("_OutlineWidth", 0f);
+                    _outlineMaskMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.LessEqual);
+                    _outlineFillMaterial.SetFloat("_ZTest", (float)UnityEngine.Rendering.CompareFunction.Greater);
+                    _outlineFillMaterial.SetFloat("_OutlineWidth", 0f);
                     break;
             }
         }

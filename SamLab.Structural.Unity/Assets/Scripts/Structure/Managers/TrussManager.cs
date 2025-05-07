@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using PlasticGui.WebApi.Responses;
 using Structure.Factories;
 using UnityEngine;
 
@@ -11,8 +13,13 @@ namespace Structure.Managers
         // Start is called once before the first execution of Update after the MonoBehaviour is created
 
         [SerializeField] private TrussFactory _trussFactory;
+     
+        public Action<List<TrussStructure>> OnStructureCollectionChanged;
+        public Action<TrussStructure> OnActiveStructureChanged;
+        
         public TrussFactory TrussFactory => _trussFactory;
 
+        public List<TrussStructure> TrussStructures => Structures;
         private void Start()
         {
             Structures ??= new List<TrussStructure>();
@@ -28,6 +35,7 @@ namespace Structure.Managers
         public void CreateNewTrussStructure()
         {
             ActiveStructure = TrussFactory.CreateStructure(this);
+            OnActiveStructureChanged?.Invoke(ActiveStructure);
             AddStructure(ActiveStructure);
         }
 
@@ -36,6 +44,7 @@ namespace Structure.Managers
             if (Structures.Contains(structure))
                 return;
             Structures.Add(structure);
+            OnStructureCollectionChanged?.Invoke(Structures);
         }
 
         // Update is called once per frame
@@ -45,9 +54,18 @@ namespace Structure.Managers
             if (Input.GetKeyUp(KeyCode.A)) ActiveStructure.CreateMember(new Vector3(0, 0, 0), new Vector3(1, 0, 0));
         }
 
+        public void RemoveStructure(TrussStructure structure)
+        {
+            if(!Structures.Contains(structure))
+                return;
+            Structures.Remove(structure);
+            OnStructureCollectionChanged?.Invoke(Structures);
+        }
+
         public void SetActiveStructure(TrussStructure structure)
         {
             ActiveStructure = structure;
+            OnActiveStructureChanged?.Invoke(ActiveStructure);
         }
 
         public void AddLoad()

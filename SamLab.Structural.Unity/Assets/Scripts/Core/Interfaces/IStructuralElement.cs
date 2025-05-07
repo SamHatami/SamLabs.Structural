@@ -1,6 +1,7 @@
 ﻿namespace Core.Interfaces
 {
-    internal interface IStructuralElement
+    public interface IStructuralElement
     {
+        string Name { get; set; }
     }
 }

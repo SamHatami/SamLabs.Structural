@@ -46,17 +46,19 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.41f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\UI\Views\TopButtonsController.cs" />
     <Compile Include="Assets\QuickOutline\Scripts\Outline.cs" />
-    <Compile Include="Assets\UI\ViewModels\MainViewModel.cs" />
-    <Compile Include="Assets\UI\DevUI.cs" />
-    <Compile Include="Assets\UI\TrussEditorUI.cs" />
+    <Compile Include="Assets\UI\ViewModels\WorkSpaceViewModel.cs" />
+    <Compile Include="Assets\UI\Views\WorkSpaceViewController.cs" />
     <Compile Include="Assets\UI\Views\TrussNodeViewController.cs" />
-    <Compile Include="Assets\UI\TopButtonsController.cs" />
     <Compile Include="Assets\UI\ViewModels\TrussNodeViewModel.cs" />
+    <Compile Include="Assets\UI\Views\SelectionViewController.cs" />
+    <Compile Include="Assets\UI\ViewModels\SelectionViewModel.cs" />
     <None Include="Assets\UI\Views\TrussNodeView.uxml" />
-    <None Include="Assets\UI\DevUI.uxml" />
+    <None Include="Assets\UI\Views\WorkSpaceView.uxml" />
     <None Include="Assets\QuickOutline\Resources\Shaders\OutlineMask.shader" />
-    <None Include="Assets\UI\DevUI.uss" />
+    <None Include="Assets\UI\Views\SelectionView.uxml" />
+    <None Include="Assets\UI\Views\DevUI.uss" />
     <None Include="Assets\Materials\ReferenceGeometry\AxisOverlayView.shader" />
     <None Include="Assets\Shaders\Grid.shader" />
     <None Include="Assets\QuickOutline\Readme.txt" />

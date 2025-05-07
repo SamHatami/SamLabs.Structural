@@ -5,11 +5,11 @@ using Structure.Managers;
 
 namespace Core.Interfaces
 {
-    public interface IStructuralNode
+    public interface IStructuralNode: IStructuralElement
     {
         NodeData NodeData { get; set; }
         List<TrussStructure> ParentStructures { get; }
-        List<TrussElement> ConnectedElements { get; }
+        List<TrussMember> ConnectedElements { get; }
         bool IsShared { get; set; }
 
         void AddParentStructure(TrussStructure structure);

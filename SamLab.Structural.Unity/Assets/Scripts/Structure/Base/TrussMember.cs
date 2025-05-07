@@ -4,10 +4,14 @@ using UnityEngine;
 
 namespace Structure.Base
 {
-    public class TrussElement : MonoBehaviour, IStructuralElement
+    public class TrussMember : MonoBehaviour, IStructuralElement
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
         [SerializeField] public TrussNode StartNode { get; set; }
         [SerializeField] public TrussNode EndNode { get; set; }
         //[SerializeField] private bool RenderLine = true;
@@ -80,5 +84,7 @@ namespace Structure.Base
             if (EndNode != null)
                 EndNode.AddConnectedElement(this);
         }
+
+
     }
 }

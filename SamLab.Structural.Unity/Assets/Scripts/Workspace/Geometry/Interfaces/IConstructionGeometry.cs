@@ -1,4 +1,7 @@
-﻿namespace Workspace.Geometry.Interfaces
+﻿using Core.Interfaces;
+using Structure.Base.Constraints;
+
+namespace Workspace.Geometry.Interfaces
 {
     public interface IConstructionGeometry
     {

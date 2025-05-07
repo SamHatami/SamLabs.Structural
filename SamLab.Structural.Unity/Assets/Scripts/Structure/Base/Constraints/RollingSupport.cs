@@ -1,10 +1,17 @@
-﻿using SamLab.Structural.Core.Analysis.Constraints;
+﻿using Core.Interfaces;
+using SamLab.Structural.Core.Analysis.Constraints;
 using UnityEngine;
 
 namespace Structure.Base.Constraints
 {
     public class RollingSupport : MonoBehaviour, IConstraint
     {
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+        
         [SerializeField] private TrussNode _attachedNode;
 
         [SerializeField] private bool ux;

@@ -14,7 +14,7 @@ namespace Structure.Managers
     {
         [SerializeField] public List<ISharedNode> SharedNodes;
         [SerializeField] public List<TrussNode> Nodes;
-        [SerializeField] public List<TrussElement> Members;
+        [SerializeField] public List<TrussMember> Members;
         [SerializeField] public List<IConstraint> Supports;
         [SerializeField] public List<PointLoad> Loads;
         [SerializeField] public float NodeSnapTolerance = 0.1f;
@@ -25,12 +25,12 @@ namespace Structure.Managers
         public WorkspaceSnapHandler WorkspaceSnapHandler { get; private set; }
 
         private List<TrussNode> _selectedNodes;
-        private List<TrussElement> _selectedMembers;
+        private List<TrussMember> _selectedMembers;
 
         public void Initialize(TrussManager manager, TrussFactory trussFactory)
         {
             Nodes ??= new List<TrussNode>();
-            Members ??= new List<TrussElement>();
+            Members ??= new List<TrussMember>();
             Supports ??= new List<IConstraint>();
 
             _trussManager = manager;
@@ -74,10 +74,10 @@ namespace Structure.Managers
         }
 
 
-        public void DeleteMember(TrussElement element)
+        public void DeleteMember(TrussMember member)
         {
-            RemoveMember(element);
-            Destroy(element.gameObject);
+            RemoveMember(member);
+            Destroy(member.gameObject);
         }
 
         public void AddNode(TrussNode node)
@@ -101,14 +101,14 @@ namespace Structure.Managers
             Supports.Add(support);
         }
 
-        private void AddMember(TrussElement element)
+        private void AddMember(TrussMember member)
         {
-            if (Members.Contains(element))
+            if (Members.Contains(member))
                 return;
-            Members.Add(element);
+            Members.Add(member);
         }
 
-        private void RemoveMember(TrussElement member)
+        private void RemoveMember(TrussMember member)
         {
             if (!Members.Contains(member))
                 return;

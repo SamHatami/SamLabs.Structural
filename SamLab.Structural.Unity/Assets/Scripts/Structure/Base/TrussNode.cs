@@ -10,7 +10,7 @@ namespace Structure.Base
 {
     public class TrussNode : MonoBehaviour, IStructuralNode, ISelectable
     {
-        [SerializeField] private List<TrussElement> _connectedElements;
+        [SerializeField] private List<TrussMember> _connectedElements;
         [SerializeField] private List<TrussStructure> _parentStructures;
         [SerializeField] private bool _isShared;
         [SerializeField] private bool _isMovable;
@@ -19,6 +19,12 @@ namespace Structure.Base
         [SerializeField] private Transform _transform;
         [SerializeField] private NodeData _nodeData;
 
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+        
         public Action<TrussNode> OnPositionChanged;
 
         public bool IsShared
@@ -59,7 +65,7 @@ namespace Structure.Base
             private set => _parentStructures = value;
         }
 
-        public List<TrussElement> ConnectedElements
+        public List<TrussMember> ConnectedElements
         {
             get => _connectedElements;
             private set => _connectedElements = value;
@@ -68,7 +74,7 @@ namespace Structure.Base
         public void Initialize(TrussStructure parentStructure)
         {
             ParentStructures = new List<TrussStructure> { parentStructure };
-            ConnectedElements = new List<TrussElement>();
+            ConnectedElements = new List<TrussMember>();
             IsMovable = true;
         }
 
@@ -79,16 +85,16 @@ namespace Structure.Base
             //add this to current selection
         }
 
-        public void RemoveConnectedElement(TrussElement element)
+        public void RemoveConnectedElement(TrussMember member)
         {
-            if (ConnectedElements.Contains(element))
-                ConnectedElements.Remove(element);
+            if (ConnectedElements.Contains(member))
+                ConnectedElements.Remove(member);
         }
 
-        public void AddConnectedElement(TrussElement element)
+        public void AddConnectedElement(TrussMember member)
         {
-            if (!ConnectedElements.Contains(element))
-                ConnectedElements.Add(element);
+            if (!ConnectedElements.Contains(member))
+                ConnectedElements.Add(member);
         }
 
         public void OnMouseDrag()

@@ -46,8 +46,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.41f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Structure\Base\TrussMember.cs" />
     <Compile Include="Assets\Scripts\Core\Interfaces\ICoroutineCommand.cs" />
     <Compile Include="Assets\Scripts\Workspace\Gizmos\TranslateGizmo.cs" />
+    <Compile Include="Assets\Scripts\Core\Interfaces\IConstraint.cs" />
     <Compile Include="Assets\Scripts\Workspace\UI\RotateTranslateGizmo.cs" />
     <Compile Include="Assets\Scripts\Structure\Interfaces\IDistributedLoad.cs" />
     <Compile Include="Assets\Scripts\Workspace\Managers\WorkspaceManager.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Assets\Scripts\Structure\Managers\TrussStructure.cs" />
     <Compile Include="Assets\Scripts\Workspace\Gizmos\ViewAxisRenderQueue.cs" />
     <Compile Include="Assets\Scripts\Workspace\Camera\CameraHighlight.cs" />
+    <Compile Include="Assets\Scripts\Core\Interfaces\IStructureItem.cs" />
     <Compile Include="Assets\Scripts\Workspace\Interaction\SelectionInteraction.cs" />
     <Compile Include="Assets\Scripts\Core\Session.cs" />
     <Compile Include="Assets\Scripts\Workspace\Camera\ScaleToCamera.cs" />
@@ -74,7 +77,6 @@
     <Compile Include="Assets\Scripts\Structure\Commands\ElementCommands.cs" />
     <Compile Include="Assets\Scripts\Workspace\Interaction\PlaneHoverColorChange.cs" />
     <Compile Include="Assets\Scripts\Core\Interfaces\ISetting.cs" />
-    <Compile Include="Assets\Scripts\Structure\Base\TrussElement.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\ReferenceGeometry\WorkPoint.cs" />
     <Compile Include="Assets\Scripts\Structure\Utils\NodeUtils.cs" />
     <Compile Include="Assets\Scripts\Analysis\NodeData.cs" />
@@ -101,11 +103,9 @@
     <Compile Include="Assets\Scripts\Structure\Factories\TrussFactory.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\Interfaces\IReferenceGeometry.cs" />
     <Compile Include="Assets\Scripts\Workspace\UI\DragSizeHandler.cs" />
-    <Compile Include="Assets\Scripts\Structure\Base\Constraints\IConstraint.cs" />
     <Compile Include="Assets\Scripts\Structure\Commands\NodeCommands.cs" />
     <Compile Include="Assets\Scripts\Structure\Managers\TrussManager.cs" />
     <Compile Include="Assets\Scripts\Structure\Base\Loads\LineLoad.cs" />
-    <Compile Include="Assets\Scripts\Workspace\Geometry\Interfaces\IConstraint.cs" />
     <Compile Include="Assets\Scripts\Workspace\Camera\LookAtMainCamera.cs" />
     <Compile Include="Assets\Scripts\Structure\Interfaces\ILineLoad.cs" />
     <Compile Include="Assets\Scripts\Core\Interfaces\ISelectable.cs" />

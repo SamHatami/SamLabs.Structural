@@ -9,9 +9,6 @@ public class TrussNodeViewController: MonoBehaviour
     public UIDocument uiDocument; // Assign your UIDocument in the Inspector
     public TrussNodeViewModel viewModel;
     
-    private FloatField _positionX;
-    private FloatField _positionY;
-    private FloatField _positionZ;
     private void OnEnable()
     {
         if(uiDocument == null)

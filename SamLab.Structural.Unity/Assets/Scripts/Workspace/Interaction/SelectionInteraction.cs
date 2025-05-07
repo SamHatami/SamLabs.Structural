@@ -12,7 +12,7 @@ namespace Workspace.Interaction
         public SelectionFilterEnum Filter;
         public bool MultiSelect;
         public event Action<TrussNode> NodeSelectionEvent;
-        public event Action<TrussElement> ElementSelectionEvent;
+        public event Action<TrussMember> ElementSelectionEvent;
         public event Action<PointLoad> LoadSelectionEvent;
         public event Action<TrussStructure> StructureSelectionEvent;
         public event Action<WorkPoint> WorkPointSelectionEvent;
@@ -51,8 +51,8 @@ namespace Workspace.Interaction
             }
 
 
-            if (hit.collider.gameObject.GetComponent<TrussElement>() != null)
-                ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussElement>());
+            if (hit.collider.gameObject.GetComponent<TrussMember>() != null)
+                ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussMember>());
 
             if (hit.collider.gameObject.GetComponent<PointLoad>() != null)
                 LoadSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<PointLoad>());
@@ -91,8 +91,8 @@ namespace Workspace.Interaction
 
                     break;
                 case SelectionFilterEnum.Element:
-                    if (hit.collider.gameObject.GetComponent<TrussElement>() != null)
-                        ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussElement>());
+                    if (hit.collider.gameObject.GetComponent<TrussMember>() != null)
+                        ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussMember>());
                     break;
                 case SelectionFilterEnum.Load:
                     if (hit.collider.gameObject.GetComponent<PointLoad>() != null)

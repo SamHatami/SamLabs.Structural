@@ -41,14 +41,14 @@ namespace Structure.Factories
             return node;
         }
 
-        public TrussElement CreateMember(TrussNode startNode, TrussNode endNode, TrussStructure parentStructure)
+        public TrussMember CreateMember(TrussNode startNode, TrussNode endNode, TrussStructure parentStructure)
         {
             var memberObj = Instantiate(_memberPrefab, Vector3.zero, Quaternion.identity);
             //memberObj.name = "Member_" + System.Guid.NewGuid().ToString().Substring(0, 8);
             memberObj.transform.SetParent(parentStructure.transform);
-            var element = memberObj.GetComponent<TrussElement>();
+            var element = memberObj.GetComponent<TrussMember>();
             if (element == null)
-                element = memberObj.AddComponent<TrussElement>();
+                element = memberObj.AddComponent<TrussMember>();
 
             element.Initialize(parentStructure, startNode, endNode);
             return element;

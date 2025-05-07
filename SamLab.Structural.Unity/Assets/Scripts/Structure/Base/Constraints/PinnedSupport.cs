@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Core.Interfaces;
 using SamLab.Structural.Core.Analysis.Constraints;
 using UnityEngine;
 
@@ -8,6 +9,11 @@ namespace Structure.Base.Constraints
     {
         [SerializeField] private TrussNode _attachedNode;
 
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
         public TrussNode AttachedNode
         {
             get => _attachedNode; 

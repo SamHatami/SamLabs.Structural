@@ -2,6 +2,7 @@
     <Style src="project://database/Assets/UI/Views/DevUI.uss?fileID=7433441132597879392&amp;guid=75a932c62e75d92449ab1a02abb45619&amp;type=3#DevUI" />
     <engine:VisualElement style="flex-grow: 1; flex-direction: row;">
         <engine:VisualElement name="LeftPane" style="flex-grow: 1; width: 10%;">
+            <engine:Label name="TreeViewLabel" text="Components" />
             <engine:TreeView name="SessionExplorerTreeView" style="width: auto;" />
         </engine:VisualElement>
         <engine:VisualElement name="ViewPortPane" style="flex-grow: 1;">

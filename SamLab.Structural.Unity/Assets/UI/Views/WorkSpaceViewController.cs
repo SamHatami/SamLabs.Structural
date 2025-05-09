@@ -26,7 +26,7 @@ public class WorkSpaceViewController : MonoBehaviour
     [SerializeField] private  CommandManager commandManager;
     
     TopButtonsController _topButtonsController;
-    
+    private TreeView structureTree;
     
     private void OnEnable()
     {
@@ -42,15 +42,24 @@ public class WorkSpaceViewController : MonoBehaviour
             return;
         }
         
+        
+        workSpaceViewModel.propertyChanged += WorkSpaceViewModelOnpropertyChanged;
+        
         // Set up UI
         SetupViewControllers();
         CreateDataSourceBinding(workSpaceView.rootVisualElement);
         CreateDataSourceBinding(selectionView.rootVisualElement);
 
-        var sessionsObjectTree = workSpaceView.rootVisualElement.Q<TreeView>();
+        structureTree = workSpaceView.rootVisualElement.Q<TreeView>();
 
-        SetUpSessionTreeView(sessionsObjectTree);
+        SetUpSessionTreeView(structureTree);
 
+    }
+
+    private void WorkSpaceViewModelOnpropertyChanged(object sender, BindablePropertyChangedEventArgs e)
+    {
+        CreateOrUpdateTreeView();
+        
     }
 
     private void SetUpSessionTreeView(TreeView sessionsObjectTree)
@@ -62,9 +71,10 @@ public class WorkSpaceViewController : MonoBehaviour
             (element as Label).text = sessionsObjectTree.GetItemDataForIndex<IStructuralElement>(index).Name;
     }
 
-    private void CreateOrUpdateTreeView(TreeView treeView)
+    private void CreateOrUpdateTreeView()
     {
-        
+        structureTree.SetRootItems(GetTreeViewItemData());
+        SetUpSessionTreeView(structureTree);
     }
 
     private void SetupViewControllers()
@@ -77,33 +87,46 @@ public class WorkSpaceViewController : MonoBehaviour
         root.dataSource = workSpaceViewModel;
     }
 
-    private IList<TreeViewItemData<TrussStructure>> GetTreeViewItemData()
+    private IList<TreeViewItemData<IStructuralElement>> GetTreeViewItemData()
     {
         int id = 0;
-        var sessionStructures = new List<TreeViewItemData<TrussStructure>>(workSpaceViewModel.Structures.Count);
+        var sessionStructures = new List<TreeViewItemData<IStructuralElement>>(workSpaceViewModel.Structures.Count);
         foreach (var structure in workSpaceViewModel.Structures)
         {
-            var nodes = new List<TreeViewItemData<TrussNode>>(structure.Nodes.Count);
-            var members = new List<TreeViewItemData<TrussMember>>(structure.Members.Count);
-            var supports = new List<TreeViewItemData<IConstraint>>(structure.Supports.Count);
+            var nodes = new List<TreeViewItemData<IStructuralElement>>(structure.Nodes.Count);
+            var members = new List<TreeViewItemData<IStructuralElement>>(structure.Members.Count);
+            var supports = new List<TreeViewItemData<IStructuralElement>>(structure.Supports.Count);
+            
 
             foreach (var trussMember in structure.Members)
             {
-                members.Add(new TreeViewItemData<TrussMember>(id++, trussMember));
+                members.Add(new TreeViewItemData<IStructuralElement>(id++, trussMember));
             }
 
             foreach (var trussNode in structure.Nodes)
             {
-                nodes.Add(new TreeViewItemData<TrussNode>(id++, trussNode));
+                nodes.Add(new TreeViewItemData<IStructuralElement>(id++, trussNode));
             }
 
             foreach (var support in structure.Supports)
             {
-                supports.Add(new TreeViewItemData<IConstraint>(id++, support));
+                supports.Add(new TreeViewItemData<IStructuralElement>(id++, support));
             }
+
             
-            sessionStructures.Add(new TreeViewItemData<TrussStructure>(id++, structure));
+            sessionStructures.Add(new TreeViewItemData<IStructuralElement>(
+                id++, 
+                structure, 
+                new List<TreeViewItemData<IStructuralElement>>()
+                {
+                    new TreeViewItemData<IStructuralElement>(id++, new StructuralTreeGroupHeader(){Name = "Nodes"}, nodes),
+                    new TreeViewItemData<IStructuralElement>(id++, new StructuralTreeGroupHeader(){Name = "Members"}, members),
+                    new TreeViewItemData<IStructuralElement>(id++, new StructuralTreeGroupHeader(){Name = "Supports"}, supports),
+                }
+            ));
+            
         }
+
         
         return sessionStructures; 
     }

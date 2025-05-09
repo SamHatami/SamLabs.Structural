@@ -89,6 +89,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"type: workspacev"
 	"type: trussnodevi"
 	"type: trus"
 	"type: trussviewmodel"
@@ -108,7 +109,6 @@ recentSearches = [
 	"type: workspace"
 	"type: wrosk"
 	"type: workspaceman"
-	"type: Workspacemanag"
 ]
 searchItemFavorites = [
 ]

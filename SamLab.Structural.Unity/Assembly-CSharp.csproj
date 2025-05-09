@@ -50,6 +50,7 @@
     <Compile Include="Assets\QuickOutline\Scripts\Outline.cs" />
     <Compile Include="Assets\UI\ViewModels\WorkSpaceViewModel.cs" />
     <Compile Include="Assets\UI\Views\WorkSpaceViewController.cs" />
+    <Compile Include="Assets\UI\ViewModels\StructuralTreeGroupHeader.cs" />
     <Compile Include="Assets\UI\Views\TrussNodeViewController.cs" />
     <Compile Include="Assets\UI\ViewModels\TrussNodeViewModel.cs" />
     <Compile Include="Assets\UI\Views\SelectionViewController.cs" />

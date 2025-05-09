@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Codice.Client.BaseCommands;
 using Core.Interfaces;
 using Structure.Base;
 using Structure.Base.Constraints;
@@ -10,8 +12,14 @@ using Workspace.Managers;
 
 namespace Structure.Managers
 {
-    public class TrussStructure : MonoBehaviour
+    public class TrussStructure : MonoBehaviour, IStructuralElement
     {
+        public string Name
+        {
+            get => gameObject.name;
+            set => gameObject.name = value;
+        }
+
         [SerializeField] public List<ISharedNode> SharedNodes;
         [SerializeField] public List<TrussNode> Nodes;
         [SerializeField] public List<TrussMember> Members;
@@ -21,6 +29,8 @@ namespace Structure.Managers
         [SerializeField] public WorkPlane ReferenceWorkPlane;
         private TrussFactory _trussFactory;
         private TrussManager _trussManager;
+
+        public Action<TrussMember> MemberCollectionChanged;
 
         public WorkspaceSnapHandler WorkspaceSnapHandler { get; private set; }
 
@@ -42,7 +52,6 @@ namespace Structure.Managers
         {
             var node = _trussFactory.CreateNode(position, this);
             AddNode(node);
-
             return node;
         }
 
@@ -50,6 +59,7 @@ namespace Structure.Managers
         {
             var element = _trussFactory.CreateMember(startNode, endNode, this);
             AddMember(element);
+            MemberCollectionChanged?.Invoke(element);
         }
 
         public void CreateMember(Vector3 start, Vector3 end)
@@ -59,6 +69,7 @@ namespace Structure.Managers
             AddNode(startNode);
             AddNode(endNode);
             CreateMember(startNode, endNode);
+
         }
         public void DeleteNode(TrussNode node)
         {
@@ -135,5 +146,7 @@ namespace Structure.Managers
                 return;
             Loads.Remove(load);
         }
+
+  
     }
 }

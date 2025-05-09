@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using PlasticGui.WebApi.Responses;
+using Structure.Base;
 using Structure.Factories;
 using UnityEngine;
 
@@ -44,6 +44,11 @@ namespace Structure.Managers
             if (Structures.Contains(structure))
                 return;
             Structures.Add(structure);
+            structure.MemberCollectionChanged += MemberCollectionChanged;
+        }
+
+        private void MemberCollectionChanged(TrussMember obj)
+        {
             OnStructureCollectionChanged?.Invoke(Structures);
         }
 
@@ -58,6 +63,7 @@ namespace Structure.Managers
         {
             if(!Structures.Contains(structure))
                 return;
+            structure.MemberCollectionChanged -= MemberCollectionChanged;
             Structures.Remove(structure);
             OnStructureCollectionChanged?.Invoke(Structures);
         }

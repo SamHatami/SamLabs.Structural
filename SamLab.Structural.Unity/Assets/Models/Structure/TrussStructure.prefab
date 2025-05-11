@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 754720787918609562}
   - component: {fileID: 8850299765134362377}
+  - component: {fileID: 380304224627362070}
   m_Layer: 0
   m_Name: TrussStructure
   m_TagString: Untagged
@@ -46,5 +47,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Nodes: []
   Members: []
+  Loads: []
   NodeSnapTolerance: 0.1
   ReferenceWorkPlane: {fileID: 0}
+--- !u!114 &380304224627362070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5365724540084641144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c683f3f88283ad5409f208f78a707909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseColor: {r: 0.6981132, g: 0.68823427, b: 0.68823427, a: 1}
+  HoverColor: {r: 0.9056604, g: 0.5623492, b: 0.029903898, a: 0.6509804}
+  SelectedColor: {r: 0, g: 0, b: 1, a: 1}

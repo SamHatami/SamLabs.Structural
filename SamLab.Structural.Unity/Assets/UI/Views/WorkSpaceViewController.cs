@@ -10,6 +10,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Workspace.Geometry.Interfaces;
+using Workspace.Interaction;
 using TreeView = UnityEngine.UIElements.TreeView;
 
 public class WorkSpaceViewController : MonoBehaviour
@@ -64,15 +65,24 @@ public class WorkSpaceViewController : MonoBehaviour
     {
         Vector2 mousePosition = evt.mousePosition;
         VisualElement elementUnderMouse = structureTree.panel?.Pick(mousePosition);
-
+        
         if (elementUnderMouse == null) return;
 
         if (!treeElementsMap.TryGetValue(elementUnderMouse, out var element)) return;
+
+        if (element == currentHoveredElement || element.SceneObject == null) return;
         
-        if (element != currentHoveredElement && element.SceneObject != null)
-        {
+        var hoverColorChange = element.SceneObject.GetComponent<HoverColorChange>();
+        
+        if(hoverColorChange != null)
+            hoverColorChange.setHovered = true;
+        
+        if(currentHoveredElement != null)
+            currentHoveredElement.SceneObject.GetComponent<HoverColorChange>().setHovered = false;
+        
+        currentHoveredElement = element;
+       
             
-        }
     }
 
     private void StructureTreeOnselectionChanged(IEnumerable<object> obj)

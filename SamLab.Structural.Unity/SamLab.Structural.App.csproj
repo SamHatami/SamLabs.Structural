@@ -53,12 +53,12 @@
     <Compile Include="Assets\Scripts\Workspace\UI\RotateTranslateGizmo.cs" />
     <Compile Include="Assets\Scripts\Structure\Interfaces\IDistributedLoad.cs" />
     <Compile Include="Assets\Scripts\Workspace\Managers\WorkspaceManager.cs" />
-    <Compile Include="Assets\Scripts\Workspace\Interaction\AxisHoverColorChange.cs" />
     <Compile Include="Assets\Scripts\Workspace\Gizmos\CreateMaterialInstance.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\ReferenceGeometry\WorkAxis.cs" />
     <Compile Include="Assets\Scripts\Workspace\InfiniteGrid.cs" />
     <Compile Include="Assets\Scripts\Structure\Commands\SupportCommands.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\ReferenceGeometry\BasePlane.cs" />
+    <Compile Include="Assets\Scripts\Workspace\Interaction\HoverColorChange.cs" />
     <Compile Include="Assets\Scripts\Core\Application\CommandManager.cs" />
     <Compile Include="Assets\Scripts\Structure\Managers\TrussStructure.cs" />
     <Compile Include="Assets\Scripts\Workspace\Gizmos\ViewAxisRenderQueue.cs" />

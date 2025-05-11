@@ -1,15 +1,20 @@
+using System;
+using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Workspace.Interaction
 {
-    public class AxisHoverColorChange : MonoBehaviour
+    public class HoverColorChange : MonoBehaviour
     {
-        [Header("Hover Color Settings")] public Color HoverColor = Color.white;
         public Color BaseColor = Color.white;
 
-        private Collider axisCollider;
+        [Header("Hover Color Settings")] public Color HoverColor = Color.white;
+        [Header("Selected Color Settings")] public Color SelectedColor = Color.blue;
+        private Collider _collider;
         private Material material;
-
+        public bool setHovered { get; set; }
+        
         private void Awake()
         {
             //TODO: In the future read colors from workspace settings
@@ -18,7 +23,7 @@ namespace Workspace.Interaction
         private void Start()
         {
             material = GetComponent<Renderer>().material;
-            axisCollider = GetComponent<Collider>();
+            _collider = GetComponent<Collider>();
             material.color = BaseColor;
             material.SetColor("_EmissionColor", HoverColor);
         }
@@ -27,19 +32,33 @@ namespace Workspace.Interaction
         {
             var ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit) && hit.collider == axisCollider)
+            if (setHovered)
                 HoverColorOn();
             else
                 HoverColorOff();
+            
+        }
+        private void OnMouseEnter()
+        {
+            setHovered = true;
+        }
+
+        private void OnMouseExit()
+        {
+            setHovered = false;
         }
 
         private void HoverColorOff()
         {
+            if(material == null) return;
+            
             material.DisableKeyword("_EMISSION");
         }
 
         private void HoverColorOn()
         {
+            if (material == null) return; //Might add alternative to highlight all childern
+            
             material.EnableKeyword("_EMISSION");
         }
     }

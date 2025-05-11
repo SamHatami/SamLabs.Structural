@@ -24,7 +24,9 @@ namespace Structure.Base
             get => name;
             set => name = value;
         }
-        
+
+        public GameObject SceneObject { get; set; }
+
         public Action<TrussNode> OnPositionChanged;
 
         public bool IsShared
@@ -56,6 +58,7 @@ namespace Structure.Base
             _transform = transform;
             if(_nodeData == null)
                 _nodeData = new NodeData();
+            SceneObject = this.gameObject;
         }
 
 

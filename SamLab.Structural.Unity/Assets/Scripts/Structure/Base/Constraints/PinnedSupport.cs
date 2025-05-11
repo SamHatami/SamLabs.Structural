@@ -14,6 +14,9 @@ namespace Structure.Base.Constraints
             get => name;
             set => name = value;
         }
+
+        public GameObject SceneObject { get; set; }
+
         public TrussNode AttachedNode
         {
             get => _attachedNode; 
@@ -27,6 +30,7 @@ namespace Structure.Base.Constraints
         {
             DegreeOfFreedoms = new DoF(true,true,true,false,false,false);
             _currentPosition = transform.position;
+            SceneObject = this.gameObject;
         }
         private void Update()
         {

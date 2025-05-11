@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Codice.Client.BaseCommands;
 using Core.Interfaces;
 using Structure.Base;
@@ -20,6 +21,8 @@ namespace Structure.Managers
             set => gameObject.name = value;
         }
 
+        public GameObject SceneObject { get; set; }
+
         [SerializeField] public List<ISharedNode> SharedNodes;
         [SerializeField] public List<TrussNode> Nodes;
         [SerializeField] public List<TrussMember> Members;
@@ -36,6 +39,11 @@ namespace Structure.Managers
 
         private List<TrussNode> _selectedNodes;
         private List<TrussMember> _selectedMembers;
+
+        private void Awake()
+        {
+            SceneObject = this.gameObject;
+        }
 
         public void Initialize(TrussManager manager, TrussFactory trussFactory)
         {

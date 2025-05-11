@@ -6,6 +6,7 @@ using Structure.Base;
 using Structure.Base.Constraints;
 using Structure.Managers;
 using UI.ViewModels;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Workspace.Geometry.Interfaces;
@@ -28,6 +29,8 @@ public class WorkSpaceViewController : MonoBehaviour
     TopButtonsController _topButtonsController;
     private TreeView structureTree;
     
+    private Dictionary<VisualElement, IStructuralElement> treeElementsMap = new Dictionary<VisualElement, IStructuralElement>();
+    private IStructuralElement currentHoveredElement;
     private void OnEnable()
     {
         if (workSpaceViewModel == null)
@@ -51,9 +54,30 @@ public class WorkSpaceViewController : MonoBehaviour
         CreateDataSourceBinding(selectionView.rootVisualElement);
 
         structureTree = workSpaceView.rootVisualElement.Q<TreeView>();
-
+        structureTree.selectionChanged += StructureTreeOnselectionChanged;
+        structureTree.RegisterCallback<MouseMoveEvent>(OnMouseMove);
         SetUpSessionTreeView(structureTree);
 
+    }
+
+    private void OnMouseMove(MouseMoveEvent evt)
+    {
+        Vector2 mousePosition = evt.mousePosition;
+        VisualElement elementUnderMouse = structureTree.panel?.Pick(mousePosition);
+
+        if (elementUnderMouse == null) return;
+
+        if (!treeElementsMap.TryGetValue(elementUnderMouse, out var element)) return;
+        
+        if (element != currentHoveredElement && element.SceneObject != null)
+        {
+            
+        }
+    }
+
+    private void StructureTreeOnselectionChanged(IEnumerable<object> obj)
+    {
+        
     }
 
     private void WorkSpaceViewModelOnpropertyChanged(object sender, BindablePropertyChangedEventArgs e)
@@ -68,13 +92,21 @@ public class WorkSpaceViewController : MonoBehaviour
 
         sessionsObjectTree.makeItem = () => new Label();
         sessionsObjectTree.bindItem = (VisualElement element, int index) =>
-            (element as Label).text = sessionsObjectTree.GetItemDataForIndex<IStructuralElement>(index).Name;
+        {
+            var iStructuralElementData = sessionsObjectTree.GetItemDataForIndex<IStructuralElement>(index);
+            (element as Label).text = iStructuralElementData.Name;
+            treeElementsMap.TryAdd(element, iStructuralElementData);
+        };
+            
+        sessionsObjectTree.ExpandAll();
     }
 
     private void CreateOrUpdateTreeView()
     {
         structureTree.SetRootItems(GetTreeViewItemData());
-        SetUpSessionTreeView(structureTree);
+        // SetUpSessionTreeView(structureTree);
+        structureTree.Rebuild();
+        structureTree.ExpandAll();
     }
 
     private void SetupViewControllers()
@@ -90,7 +122,12 @@ public class WorkSpaceViewController : MonoBehaviour
     private IList<TreeViewItemData<IStructuralElement>> GetTreeViewItemData()
     {
         int id = 0;
-        var sessionStructures = new List<TreeViewItemData<IStructuralElement>>(workSpaceViewModel.Structures.Count);
+
+        //Update rather than recreate.
+        //Needs more event types to specify which element is added to the structure
+        
+        var treeView = new List<TreeViewItemData<IStructuralElement>>(workSpaceViewModel.Structures.Count);
+        
         foreach (var structure in workSpaceViewModel.Structures)
         {
             var nodes = new List<TreeViewItemData<IStructuralElement>>(structure.Nodes.Count);
@@ -114,7 +151,7 @@ public class WorkSpaceViewController : MonoBehaviour
             }
 
             
-            sessionStructures.Add(new TreeViewItemData<IStructuralElement>(
+            treeView.Add(new TreeViewItemData<IStructuralElement>(
                 id++, 
                 structure, 
                 new List<TreeViewItemData<IStructuralElement>>()
@@ -128,7 +165,7 @@ public class WorkSpaceViewController : MonoBehaviour
         }
 
         
-        return sessionStructures; 
+        return treeView; 
     }
 
 }

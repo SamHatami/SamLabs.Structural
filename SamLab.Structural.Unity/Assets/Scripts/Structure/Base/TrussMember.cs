@@ -1,3 +1,4 @@
+using System;
 using Core.Interfaces;
 using Structure.Managers;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace Structure.Base
             get => name;
             set => name = value;
         }
+
+        public GameObject SceneObject { get; set; }
         [SerializeField] public TrussNode StartNode { get; set; }
         [SerializeField] public TrussNode EndNode { get; set; }
         //[SerializeField] private bool RenderLine = true;
@@ -22,6 +25,11 @@ namespace Structure.Base
         private Vector3 oldEndNodePosition;
         private Vector3 oldStartNodePosition;
         private float length;
+
+        private void Awake()
+        {
+            SceneObject = this.gameObject;
+        }
 
         public void Initialize(TrussStructure parentStructure, TrussNode startNode, TrussNode endNode)
         {

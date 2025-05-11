@@ -11,7 +11,9 @@ namespace Structure.Base.Constraints
             get => name;
             set => name = value;
         }
-        
+
+        public GameObject SceneObject { get; set; }
+
         [SerializeField] private TrussNode _attachedNode;
 
         [SerializeField] private bool ux;
@@ -25,8 +27,8 @@ namespace Structure.Base.Constraints
             {
                 ux = value;
                 uy = uz = !ux;
-            }
         }
+            }
 
         public bool Uy
         {
@@ -55,8 +57,8 @@ namespace Structure.Base.Constraints
         private void Awake()
         {
             DegreeOfFreedoms = new DoF(false, true, false, false, false, false);
+            SceneObject = this.gameObject;
         }
-
         private void Update()
         {
             if (_attachedNode && _currentPosition != _attachedNode.transform.position)

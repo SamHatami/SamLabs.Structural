@@ -68,6 +68,7 @@ public class WorkSpaceViewController : MonoBehaviour
         
         if (elementUnderMouse == null) return;
 
+
         if (!treeElementsMap.TryGetValue(elementUnderMouse, out var element)) return;
 
         if (element == currentHoveredElement || element.SceneObject == null) return;
@@ -87,7 +88,15 @@ public class WorkSpaceViewController : MonoBehaviour
 
     private void StructureTreeOnselectionChanged(IEnumerable<object> obj)
     {
-        
+        if(obj == null) return;
+
+        foreach (var element in obj)
+        {
+            if (element is IStructuralElement node)
+            {
+                SelectionEvents.PublishIStructuralElementSelected(node);
+            } 
+        }
     }
 
     private void WorkSpaceViewModelOnpropertyChanged(object sender, BindablePropertyChangedEventArgs e)

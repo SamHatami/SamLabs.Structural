@@ -38,7 +38,7 @@ namespace Structure.Commands
             {
                 _selection.gameObject.SetActive(true);
                 _selection.Filter = SelectionFilterEnum.Node;
-                _selection.NodeSelectionEvent += OnNodePositionSet;
+                SelectionEvents.NodeSelectedEvent += OnNodePositionSet;
                 _selection.StartSelection();
 
                 while (_selection.Selecting) yield return null;

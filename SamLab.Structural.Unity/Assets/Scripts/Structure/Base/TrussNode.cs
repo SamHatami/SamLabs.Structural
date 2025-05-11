@@ -5,6 +5,7 @@ using SamLab.Structural.Core.Elements;
 using Structure.Base.Loads;
 using Structure.Managers;
 using UnityEngine;
+using Workspace.Interaction;
 
 namespace Structure.Base
 {
@@ -25,6 +26,7 @@ namespace Structure.Base
             set => name = value;
         }
 
+        
         public GameObject SceneObject { get; set; }
 
         public Action<TrussNode> OnPositionChanged;
@@ -37,6 +39,12 @@ namespace Structure.Base
                 _isShared = value;
                 IsMovable = !value;
             }
+        }
+        
+        public bool Selected
+        {
+            get => _isSelected; 
+            set => _isSelected = value;
         }
 
         public bool IsMovable
@@ -56,9 +64,15 @@ namespace Structure.Base
         private void Awake()
         {
             _transform = transform;
-            if(_nodeData == null)
+            if (_nodeData == null)
                 _nodeData = new NodeData();
             SceneObject = this.gameObject;
+
+        }
+
+        private void SelectionEventsOnNodeSelectedEvent(TrussNode obj)
+        {
+            throw new NotImplementedException();
         }
 
 

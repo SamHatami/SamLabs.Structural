@@ -11,12 +11,6 @@ namespace Workspace.Interaction
     {
         public SelectionFilterEnum Filter;
         public bool MultiSelect;
-        public event Action<TrussNode> NodeSelectionEvent;
-        public event Action<TrussMember> ElementSelectionEvent;
-        public event Action<PointLoad> LoadSelectionEvent;
-        public event Action<TrussStructure> StructureSelectionEvent;
-        public event Action<WorkPoint> WorkPointSelectionEvent;
-        public event Action<WorkPlane> WorkPlaneSelectionEvent;
 
 
         public bool Selecting { get; set; }
@@ -36,6 +30,10 @@ namespace Workspace.Interaction
             Selecting = true;
         }
 
+        public void SelectNodeAndPublish(TrussNode node)
+        {
+            SelectionEvents.PublishNodeSelected(node);
+        }
         private void CheckUnfiltered()
         {
             RaycastHit hit;
@@ -46,29 +44,29 @@ namespace Workspace.Interaction
 
             if (hit.collider.gameObject.GetComponent<TrussNode>() != null)
             {
-                NodeSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussNode>());
+                
+                SelectionEvents.PublishNodeSelected(hit.collider.gameObject.GetComponent<TrussNode>());
                 Selecting = false;
             }
 
-
             if (hit.collider.gameObject.GetComponent<TrussMember>() != null)
-                ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussMember>());
+                SelectionEvents.PublishMemberSelected(hit.collider.gameObject.GetComponent<TrussMember>());
 
             if (hit.collider.gameObject.GetComponent<PointLoad>() != null)
-                LoadSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<PointLoad>());
+                SelectionEvents.PublishLoadSelected(hit.collider.gameObject.GetComponent<PointLoad>());
 
             if (hit.collider.gameObject.GetComponent<TrussStructure>() != null)
-                StructureSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussStructure>());
+                SelectionEvents.PublishStructureSelected(hit.collider.gameObject.GetComponent<TrussStructure>());
 
             if (hit.collider.gameObject.GetComponent<WorkPoint>() != null)
             {
-                WorkPointSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPoint>());
+                SelectionEvents.PublishWorkPointSelected(hit.collider.gameObject.GetComponent<WorkPoint>());
                 Selecting = false;
             }
 
             if (hit.collider.gameObject.GetComponent<WorkPlane>() != null)
             {
-                WorkPlaneSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPlane>());
+                SelectionEvents.PublishWorkPlaneSelectedEvent(hit.collider.gameObject.GetComponent<WorkPlane>());
                 Selecting = false;
             }
         }
@@ -85,27 +83,27 @@ namespace Workspace.Interaction
                 case SelectionFilterEnum.Node:
                     if (hit.collider.gameObject.GetComponent<TrussNode>() != null)
                     {
-                        NodeSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussNode>());
+                        SelectionEvents.PublishNodeSelected(hit.collider.gameObject.GetComponent<TrussNode>());
                         Selecting = false;
                     }
 
                     break;
                 case SelectionFilterEnum.Element:
                     if (hit.collider.gameObject.GetComponent<TrussMember>() != null)
-                        ElementSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussMember>());
+                        SelectionEvents.PublishMemberSelected(hit.collider.gameObject.GetComponent<TrussMember>());
                     break;
                 case SelectionFilterEnum.Load:
                     if (hit.collider.gameObject.GetComponent<PointLoad>() != null)
-                        LoadSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<PointLoad>());
+                        SelectionEvents.PublishLoadSelected(hit.collider.gameObject.GetComponent<PointLoad>());
                     break;
                 case SelectionFilterEnum.Structure:
                     if (hit.collider.gameObject.GetComponent<TrussStructure>() != null)
-                        StructureSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<TrussStructure>());
+                        SelectionEvents.PublishStructureSelected(hit.collider.gameObject.GetComponent<TrussStructure>());
                     break;
                 case SelectionFilterEnum.WorkPoint:
                     if (hit.collider.gameObject.GetComponent<WorkPoint>() != null)
                     {
-                        WorkPointSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPoint>());
+                        SelectionEvents.PublishWorkPointSelected(hit.collider.gameObject.GetComponent<WorkPoint>());
                         Selecting = false;
                     }
 
@@ -113,7 +111,7 @@ namespace Workspace.Interaction
                 case SelectionFilterEnum.WorkPlane:
                     if (hit.collider.gameObject.GetComponent<WorkPlane>() != null)
                     {
-                        WorkPlaneSelectionEvent?.Invoke(hit.collider.gameObject.GetComponent<WorkPlane>());
+                        SelectionEvents.PublishWorkPlaneSelectedEvent(hit.collider.gameObject.GetComponent<WorkPlane>());
                         Selecting = false;
                     }
 

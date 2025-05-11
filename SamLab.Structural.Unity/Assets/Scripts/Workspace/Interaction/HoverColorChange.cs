@@ -1,4 +1,5 @@
 using System;
+using Core.Interfaces;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,9 +16,11 @@ namespace Workspace.Interaction
         private Material material;
         public bool setHovered { get; set; }
         
+        private ISelectable _selectable;
         private void Awake()
         {
             //TODO: In the future read colors from workspace settings
+            
         }
 
         private void Start()
@@ -26,6 +29,11 @@ namespace Workspace.Interaction
             _collider = GetComponent<Collider>();
             material.color = BaseColor;
             material.SetColor("_EmissionColor", HoverColor);
+
+            if (gameObject.GetComponent<ISelectable>() is not ISelectable selectable) return;
+            
+            _selectable = selectable;
+
         }
 
         private void Update()
@@ -36,6 +44,10 @@ namespace Workspace.Interaction
                 HoverColorOn();
             else
                 HoverColorOff();
+            
+            if(_selectable != null)
+                material.SetColor("_EmissionColor", _selectable.Selected ? SelectedColor : HoverColor);
+
             
         }
         private void OnMouseEnter()

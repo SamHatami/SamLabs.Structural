@@ -15,6 +15,7 @@ namespace Workspace.Geometry.ReferenceGeometry
         {
         }
 
+        public bool Selected { get; set; }
         public bool IsMovable { get; set; } = false;
 
         public void OnMouseDown()

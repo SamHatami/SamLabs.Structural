@@ -68,11 +68,7 @@ namespace UI.ViewModels
 
         private void Awake()
         {
-            _selectionHandler = FindFirstObjectByType<SelectionInteraction>();
-            if (_selectionHandler != null)
-            {
-                _selectionHandler.NodeSelectionEvent += HandleNodeSelected;
-            }
+            SelectionEvents.NodeSelectedEvent += HandleNodeSelected;
         }
 
         private void HandleNodeSelected(TrussNode newNode)

@@ -26,12 +26,14 @@ namespace Workspace.Managers
         [SerializeField] private WorkspaceSnapHandler _snapHandler;
 
         private WorkspaceSettings _settings;
-
+        private SelectionManager _selectionManager;
         private void Awake()
         {
             if (XYPlane != null) XYPlane.GetComponent<BasePlane>().Initialize();
             if (YZPlane != null) YZPlane.GetComponent<BasePlane>().Initialize();
             if (XZPlane != null) XZPlane.GetComponent<BasePlane>().Initialize();
+            
+            _selectionManager = new SelectionManager();
         }
 
         private void Start()

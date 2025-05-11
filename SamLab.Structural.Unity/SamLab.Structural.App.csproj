@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Core\Interfaces\IStructureItem.cs" />
     <Compile Include="Assets\Scripts\Workspace\Interaction\SelectionInteraction.cs" />
     <Compile Include="Assets\Scripts\Core\Session.cs" />
+    <Compile Include="Assets\Scripts\Workspace\Managers\SelectionManager.cs" />
     <Compile Include="Assets\Scripts\Workspace\Camera\ScaleToCamera.cs" />
     <Compile Include="Assets\Scripts\Workspace\Managers\InteractionHandler.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\Interfaces\IConstructionGeometry.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\Analysis\Managers\AnalysisManager.cs" />
     <Compile Include="Assets\Scripts\Workspace\Managers\WorkspaceSnapHandler.cs" />
     <Compile Include="Assets\Scripts\Core\Interfaces\IStructuralElement.cs" />
+    <Compile Include="Assets\Scripts\Workspace\Interaction\SelectionEvents.cs" />
     <Compile Include="Assets\Scripts\Workspace\WorkspaceSettings.cs" />
     <Compile Include="Assets\Scripts\Core\Interfaces\ICommand.cs" />
     <Compile Include="Assets\Scripts\Workspace\Geometry\Interfaces\IPlane.cs" />
